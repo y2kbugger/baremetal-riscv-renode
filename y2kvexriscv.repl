@@ -1,0 +1,74 @@
+mem: Memory.MappedMemory @ {
+        sysbus 0x0;
+        sysbus 0x80000000 // shadow
+    }
+    size: 0x00040000
+
+sram: Memory.MappedMemory @ {
+        sysbus 0x10000000;
+        sysbus 0x90000000 // shadow
+    }
+    size: 0x00040000
+
+ddr: Memory.MappedMemory @ {
+        sysbus 0x40000000;
+        sysbus 0xc0000000 // shadow
+    }
+    size: 0x10000000
+
+uart: UART.LiteX_UART @ {
+        sysbus 0x60001800;
+        sysbus 0xE0001800 // shadow
+    }
+
+eth: Network.LiteX_Ethernet @ {
+        sysbus 0x60007800;
+        sysbus 0xE0007800; // shadow
+
+        sysbus new Bus.BusMultiRegistration { address: 0x30000000; size: 0x2000; region: "buffer" };
+        sysbus new Bus.BusMultiRegistration { address: 0xB0000000; size: 0x2000; region: "buffer" }; // shadow
+
+        sysbus new Bus.BusMultiRegistration { address: 0x60007000; size: 0x800; region: "phy" };
+        sysbus new Bus.BusMultiRegistration { address: 0xe0007000; size: 0x800; region: "phy" } // shadow
+    }
+
+phy: Network.EthernetPhysicalLayer @ eth 0
+    VendorSpecific1: 0x4400 // MDIO status: 100Mbps + link up 
+
+spi: SPI.LiteX_SPI_Flash @ {
+    sysbus 0x60005000;
+    sysbus 0xe0005000
+}
+
+flash: SPI.Micron_MT25Q @ spi
+    underlyingMemory: flash_mem
+
+flash_mem: Memory.MappedMemory @ {
+        sysbus 0x20000000;
+        sysbus 0xA0000000 // shadow
+    }
+    size: 0x02000000
+
+sysbus:
+    init:
+        Tag <0xE0008000 0x200> "DDR_PHY"
+        Tag <0xE0004000 0x200> "SDRAM_CONTROLLER"
+        Tag <0xE0000800 0x200> "UART_PHY"
+
+cpu: CPU.VexRiscv @ sysbus
+
+timer0: Timers.LiteX_Timer @ {
+        sysbus 0x60002800;
+        sysbus 0xE0002800 // shadow
+    }
+    frequency: 100000000
+
+timer0:
+    -> cpu@1
+
+uart:
+    -> cpu@2
+
+eth:
+    -> cpu@3
+
