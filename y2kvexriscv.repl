@@ -9,7 +9,6 @@ cpu: CPU.VexRiscv @ sysbus
 
 timer: Timers.LiteX_Timer @ sysbus 0x60002800
     frequency: 100000000
-    IRQ -> cpu@1
 
 uart: UART.LiteX_UART @ sysbus 0x60001800
-    IRQ -> cpu@2
+    -> cpu@2
