@@ -7,15 +7,10 @@ using sysbus
 mach create $name
 machine LoadPlatformDescription @y2kvexriscv.repl
 
-$bin?=@https://dl.antmicro.com/projects/renode/litex_zephyr.elf-s_331660-260af83eb5e49de4fde160001f7f4ea957f9ca8c
 
-showAnalyzer sysbus.uart
-
-macro reset
-"""
-    sysbus LoadELF $bin
-"""
-
-runMacro $reset
+sysbus LoadELF @h
 
 
+# showAnalyzer sysbus.uart
+# start
+# watch "sysbus.cpu GetRegistersValues" 1000
