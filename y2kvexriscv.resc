@@ -14,3 +14,4 @@ showAnalyzer sysbus.uart
 start
 # watch "sysbus.cpu GetRegistersValues" 1000
 #watch "sysbus FindSymbolAt `sysbus.cpu PC`" 10
+machine StartGdbServer 3333
