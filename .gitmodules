@@ -1,6 +1,8 @@
 [submodule "renode"]
 	path = renode
 	url = https://github.com/renode/renode.git
+	ignore = dirty
 [submodule "riscv-gnu-toolchain"]
 	path = riscv-gnu-toolchain
 	url = https://github.com/riscv/riscv-gnu-toolchain
+	ignore = dirty
