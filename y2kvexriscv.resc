@@ -8,7 +8,7 @@ mach create $name
 machine LoadPlatformDescription @y2kvexriscv.repl
 sysbus.cpu SetMachineIrqMask 0xFFFFFFFF
 
-sysbus LoadELF @h
+sysbus LoadELF @zos
 
 showAnalyzer sysbus.uart
 start

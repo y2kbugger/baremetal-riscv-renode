@@ -21,6 +21,9 @@ _start:
 # The assembler pseudoinstruction to write a CSR, CSRW csr, rs1, is encoded as CSRRW x0, csr, rs1
         csrw   mtvec, t0
 
+# setup a stack pointer
+        la sp, _stack
+
 # set mstatus.MIE=1 (enable M mode interrupts in general)
         li      t0, 0b00001000
         csrrs   zero, mstatus, t0
@@ -57,6 +60,8 @@ mtvec:
         csrr t0, mcause
         li a2, UART_BASE
 
+        call put_fancy_asevens
+
         addi a1, a7, 0
         sb a1, RxTx(a2)
         sb a1, RxTx(a2)
@@ -85,3 +90,5 @@ putbyte: # char in a1
         li a2, UART_BASE
         sb a1, RxTx(a2)
         ret
+
+.common _stack,200,0
