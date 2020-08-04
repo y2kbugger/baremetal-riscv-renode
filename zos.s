@@ -25,7 +25,7 @@ _start:
         la sp, _stack
 
 # set mstatus.MIE=1 (enable M mode interrupts in general)
-        li      t0, 0b00001000
+        li      t0, 0b0000000000001000
         csrrs   zero, mstatus, t0
 
 # set mie.MTIE=1 (enable M mode timer interrupts)
@@ -41,7 +41,7 @@ _start:
         addi a1, x0, RxEvent
         sb a1, EventEnable(a2)
 
-# just to show that we got here
+# just to show proof that we got here
         addi a3, x0, 0xBA
 
 sleep:
@@ -53,42 +53,15 @@ sleep:
 mtvec:
 # Acknowledge received char
         li a2, UART_BASE
-        lb a7, RxTx(a2)
+        lb a0, RxTx(a2)
         #addi a1, x0, 0b11
         #sb a1, EventPending(a2)
 # Put out some characters
         csrr t0, mcause
-        li a2, UART_BASE
+        #li a2, UART_BASE
 
-        call put_fancy_asevens
-
-        addi a1, a7, 0
-        sb a1, RxTx(a2)
-        sb a1, RxTx(a2)
-        sb a1, RxTx(a2)
-        addi a1, x0, '\n'
-        sb a1, RxTx(a2)
-
-        addi a1, a7, 0
-        sb a1, RxTx(a2)
-        sb a1, RxTx(a2)
-        sb a1, RxTx(a2)
-        sb a1, RxTx(a2)
-        addi a1, x0, '\n'
-        sb a1, RxTx(a2)
-
-        addi a1, a7, 0
-        sb a1, RxTx(a2)
-        sb a1, RxTx(a2)
-        sb a1, RxTx(a2)
-        addi a1, x0, '\n'
-        sb a1, RxTx(a2)
+        call fancy_char
 
         mret
-
-putbyte: # char in a1
-        li a2, UART_BASE
-        sb a1, RxTx(a2)
-        ret
 
 .common _stack,200,0
