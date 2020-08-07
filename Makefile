@@ -6,9 +6,9 @@ zos: riscv-gnu-toolchain-output/bin/$(CC) zos.s zos.c
 	$(CC) zos.s zos.c -ggdb -O0 -o zos -ffreestanding -nostdlib
 
 debug: zos renode/renode
-	xterm -e './renode/renode -P 45454 y2kvexriscv.resc' &
-	xterm -e 'telnet localhost 45454' &
-	xterm -e 'riscv32-unknown-elf-gdb -x gdbrc' &
+	./renode/renode -P 45454 y2kvexriscv.resc
+	# xterm -e 'telnet localhost 45454' &
+	# xterm -e 'riscv32-unknown-elf-gdb -x gdbrc' &
 
 riscv-gnu-toolchain renode:
 	git submodule update --init --recursive

@@ -4,19 +4,18 @@ void putc(char c)
     __asm("sb a0, RxTx(a2)");
 }
 
+void print(char *c)
+{
+    while (*c != '\0') {
+        putc(*c++);
+    }
+}
+
 void fancy_char(char c)
 {
-    putc('#');
-    putc('#');
-    putc('#');
-    putc('\n');
-    putc('#');
+    /* char s[] = "######"; */
+    /* print(s); */
+    print("###\n#\0");
     putc(c);
-    putc('#');
-    putc('\n');
-    putc('#');
-    putc('#');
-    putc('#');
-    putc('\n');
-    putc('\n');
+    print("#\n###\n\n\0");
 }

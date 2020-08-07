@@ -64,4 +64,4 @@ mtvec:
 
         mret
 
-.common _stack,200,0
+.common _stack,20000,0
