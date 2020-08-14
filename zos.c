@@ -6,16 +6,16 @@ void putc(char c)
 
 void print(char *c)
 {
+    __asm(".equ UART_BASE, 0x60001800");
+    __asm("li a2, UART_BASE");
     while (*c != '\0') {
         putc(*c++);
     }
 }
 
-void fancy_char(char c)
+void fancy_char(c)
 {
-    /* char s[] = "######"; */
-    /* print(s); */
-    print("###\n#\0");
-    putc(c);
-    print("#\n###\n\n\0");
+    char s[] = "###\n#X#\n###\n\n";
+    s[5] = c;
+    print(s);
 }
