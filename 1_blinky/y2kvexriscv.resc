@@ -1,0 +1,16 @@
+:name: Y2k VexRiscv
+:description: This script runs baremetal on VexRiscv CPU
+
+$name?="Y2kbugger"
+
+using sysbus
+mach create $name
+machine LoadPlatformDescription @y2kvexriscv.repl
+sysbus.cpu SetMachineIrqMask 0xFFFFFFFF
+
+sysbus LoadELF @image
+
+start
+
+machine StartGdbServer 3333
+logLevel -1 sysbus.gpio_out.led
