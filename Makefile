@@ -8,6 +8,7 @@ gcc: $(GNUTC)
 renode: $(RENODETC)
 
 $(GNUTC): riscv-gnu-toolchain/.git
+	ld -lncurses 2> /dev/null || error 'ncurses headers to build gdb with the text user interface enabled.'
 	cd riscv-gnu-toolchain && ./configure --prefix=$(GNUTCPREFIX) --disable-linux --with-arch=rv32i --with-riscv-attribute='yes' --enable-languages=c --enable-tui=yes
 	cd riscv-gnu-toolchain && $(MAKE) -j4
 
