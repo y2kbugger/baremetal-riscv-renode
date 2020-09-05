@@ -1,0 +1,18 @@
+:name: 2_uart_VexRiscv
+:description: Loader for the baremetal-riscv-renode project example 2 "uart"
+
+$name?="vexriscv-machine"
+
+using sysbus
+mach create $name
+machine LoadPlatformDescription @vexriscv.repl
+sysbus.cpu SetMachineIrqMask 0xFFFFFFFF
+
+sysbus LoadELF @image
+
+machine StartGdbServer 3333
+
+start
+
+emulation CreateServerSocketTerminal 1234 "externalUART"
+connector Connect uart externalUART

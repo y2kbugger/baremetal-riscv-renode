@@ -1,0 +1,15 @@
+:name: 1_blinky_VexRiscv
+:description: Loader for the baremetal-riscv-renode project example 1 "blinky"
+
+$name?="vexriscv-machine"
+
+using sysbus
+mach create $name
+machine LoadPlatformDescription @vexriscv.repl
+
+sysbus LoadELF @image
+
+machine StartGdbServer 3333
+logLevel -1 sysbus.gpio_out.led
+
+start

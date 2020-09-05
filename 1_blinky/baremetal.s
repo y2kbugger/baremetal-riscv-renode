@@ -1,4 +1,5 @@
 .equ LED, 0x60000800
+.equ DELAY_LOOP_COUNT, 9000000
 
 .section .text
 .global _start
@@ -6,7 +7,7 @@
 _start:
         li a0, 0x00
         li a0, 0x00
-        li a3, 0x1200000
+        li a3, DELAY_LOOP_COUNT
         li a5, LED
 loop:
         addi a0, a0, 0x01

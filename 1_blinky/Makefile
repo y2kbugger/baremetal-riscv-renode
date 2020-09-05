@@ -6,7 +6,7 @@ image: baremetal.s
 	riscv32-unknown-elf-gcc baremetal.s -ggdb -O0 -o image -ffreestanding -nostdlib
 
 launch: image
-	renode -P 45454 y2kvexriscv.resc
+	renode -P 45454 vexriscv.resc
 
 monitor:
 	telnet localhost 45454
