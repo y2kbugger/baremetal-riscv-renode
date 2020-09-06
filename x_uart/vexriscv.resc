@@ -14,5 +14,5 @@ machine StartGdbServer 3333
 
 start
 
-emulation CreateServerSocketTerminal 1234 "externalUART"
+emulation CreateServerSocketTerminal 1234 "externalUART" true
 connector Connect uart externalUART
