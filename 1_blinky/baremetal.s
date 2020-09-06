@@ -1,20 +1,17 @@
 .equ LED, 0x60000800
-.equ DELAY_LOOP_COUNT, 9000000
+.equ DELAY_COUNT, 9000000
 
 .section .text
 .global _start
-
 _start:
-        li a0, 0x00
-        li a0, 0x00
-        li a3, DELAY_LOOP_COUNT
         li a5, LED
 loop:
-        addi a0, a0, 0x01
-        bne a0, a3,  loop
-
+        li a0, DELAY_COUNT      # reset counter
+delay_loop:
+        addi a0, a0, -1         # count down
+        bnez a0, delay_loop
 toggle_led:
-        lw a4, 0x0(a5)
-        xori a4, a4, 0x1
-        sw a4, 0x0(a5)
-        jump _start, t0
+        lw a4, 0x0(a5)          # read in old led state
+        xori a4, a4, 0x1        # toggle led state
+        sw a4, 0x0(a5)          # write new state
+        jump loop, t0
