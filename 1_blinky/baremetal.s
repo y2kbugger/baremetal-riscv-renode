@@ -12,6 +12,6 @@ delay_loop:
         bnez a0, delay_loop
 toggle_led:
         lw a4, 0x0(a5)          # read in old led state
-        xori a4, a4, 0x1        # toggle led state
+        xori a4, a4, 0b01       # toggle led state word
         sw a4, 0x0(a5)          # write new state
         jump loop, t0
