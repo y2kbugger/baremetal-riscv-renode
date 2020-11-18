@@ -1,13 +1,14 @@
+#define UART_BASE "0x60001800"
+#define RxTx "0x0"
+
 void putc(char c)
 {
-    __asm(".equ RxTx, 0x0");
-    __asm("sb a0, RxTx(a2)");
+    __asm("sb a0, "RxTx"(a2)");
 }
 
 void print(char *c)
 {
-    __asm(".equ UART_BASE, 0x60001800");
-    __asm("li a2, UART_BASE");
+    __asm("li a2, "UART_BASE);
     while (*c != '\0') {
         putc(*c++);
     }

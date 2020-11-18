@@ -5,6 +5,8 @@
 .global _start
 _start:
         li a5, LED
+        li a4, 0b01
+        sw a4, 0x0(a5)
 loop:
         li a0, DELAY_COUNT      # reset counter
 delay_loop:
@@ -12,6 +14,6 @@ delay_loop:
         bnez a0, delay_loop
 toggle_led:
         lw a4, 0x0(a5)          # read in old led state
-        xori a4, a4, 0b01       # toggle led state word
+        xori a4, a4, 0b11       # toggle led state word
         sw a4, 0x0(a5)          # write new state
         jump loop, t0
