@@ -6,7 +6,7 @@ image: baremetal.s baremetal.c
 	riscv32-unknown-elf-gcc baremetal.s baremetal.c -Wall -pedantic -ggdb -O0 -o image -ffreestanding -nostdlib
 
 launch: image
-	renode vexriscv.resc
+	renode vexriscv.resc --console
 
 uart:
 	telnet localhost 1234
