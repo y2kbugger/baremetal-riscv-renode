@@ -10,8 +10,7 @@ sysbus.cpu SetMachineIrqMask 0xFFFFFFFF
 
 sysbus LoadELF @image
 
-#machine StartGdbServer 3333
-
+machine StartGdbServer 3333
 
 start
 
