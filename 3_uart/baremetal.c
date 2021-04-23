@@ -1,22 +1,30 @@
-#define UART_BASE "0x60001800"
-#define RxTx "0x0"
+#include <stdint.h>
+
+typedef struct
+{
+    uint32_t RxTx;
+    uint32_t TxFull;
+    uint32_t RxEmpty;
+    uint32_t EventStatus;
+    uint32_t EventPending;
+    uint32_t EventEnable;
+} UART;
+volatile UART *const uart = (UART *)0x60001800;
 
 void putc(char c)
 {
-    __asm("sb a0, "RxTx"(a2)");
+    uart->RxTx = c;
 }
 
-void print(char *c)
+void puts(char *str)
 {
-    __asm("li a2, "UART_BASE);
-    while (*c != '\0') {
-        putc(*c++);
-    }
+    while (*str != '\0')
+        putc(*str++);
 }
 
 void fancy_char(char c)
 {
-    char s[] = "###\n\r#X#\n\r###\n\r\n\n";
+    char s[] = "###\n\r#X#\n\r###\n\r\n\r";
     s[6] = c;
-    print(s);
+    puts(s);
 }
