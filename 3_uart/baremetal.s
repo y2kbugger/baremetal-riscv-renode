@@ -12,11 +12,8 @@
 _start:
 
         # setup machine trap vector
-1:      auipc   t0, %pcrel_hi(mtvec)        # load mtvec(hi)
-        addi    t0, t0, %pcrel_lo(1b)       # load mtvec(lo)
-
-        # The assembler pseudoinstruction to write a CSR, CSRW csr, rs1, is encoded as CSRRW x0, csr, rs1
-        #csrrw   zero, mtvec, t0
+1:      auipc   t0, %pcrel_hi(mtvec_interrupt_handler)  # load mtvec_interrupt_handler(hi)
+        addi    t0, t0, %pcrel_lo(1b)                   # load mtvec_interrupt_handler(lo)
         csrw   mtvec, t0
 
         # setup a stack pointer
@@ -36,23 +33,12 @@ _start:
 
         call init_uart
 
-sleep:
-        wfi # wait for interrupt
-        jal sleep
+wait_for_interrupt:
+        wfi
+        j wait_for_interrupt
 
 .align 4
-# interrupt
-mtvec:
-        # Acknowledge received char
-        li a2, UART_BASE
-        lb a0, RxTx(a2)
-        #addi a1, x0, 0b11
-        #sb a1, EventPending(a2)
+mtvec_interrupt_handler:
+        j interrupt_handler
 
-        # Put out some characters
-        csrr t0, mcause
-        call fancy_char
-
-        mret
-
-.common _stack,20000,0
+.common _stack, 20000, 0
