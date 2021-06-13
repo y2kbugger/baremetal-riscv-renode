@@ -20,6 +20,7 @@ renode/.git riscv-gnu-toolchain/.git:
 
 clean:
 	cd riscv-gnu-toolchain && $(MAKE) clean
+	rm -rf riscv-gnu-toolchain-output
 	cd renode && ./build.sh -c
 
 clean-deep: clean
