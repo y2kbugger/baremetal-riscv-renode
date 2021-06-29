@@ -61,12 +61,14 @@ void putc(char c)
 
 void aaa()
 {
-    while (2)
-        putc('a');
+    while (1)
+        for (char c = '0'; c <= '9'; c++)
+            putc(c);
 }
 
 void bbb()
 {
-    while (2)
-        putc('b');
+    while (1)
+        for (char c = 'a'; c <= 'z'; c++)
+            putc(c);
 }
