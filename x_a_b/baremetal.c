@@ -40,9 +40,9 @@ struct process *current_process = &a;
 
 void swap_processes()
 {
-    // echo loopback
+    // consume buffer
     while (!uart->RxEmpty)
-        uart->RxTx = uart->RxTx;
+        uart->RxTx;
 
     if ('a' == current_process->name)
     {
