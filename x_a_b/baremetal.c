@@ -14,10 +14,17 @@ const uint32_t TxEvent = 0b01;
 const uint32_t RxEvent = 0b10;
 volatile UART *const uart = (UART *)0x60001800;
 
+struct process
+{
+    size_t pc;
+    int32_t stack[200];
+    char name;
+};
+
 void init_uart();
 void putc(char c);
 void fancy_char(char c);
-void interrupt_handler() __attribute__((interrupt("machine")));
+void swap_processes();
 
 void aaa();
 void bbb();
@@ -27,22 +34,23 @@ void init_uart()
     uart->EventEnable = RxEvent;
 }
 
-char process = 'a';
-size_t context_sp_a = (size_t)&aaa;
-size_t context_sp_b = (size_t)&bbb;
+struct process a = {.pc = (size_t)&aaa, .name = 'a'};
+struct process b = {.pc = (size_t)&bbb, .name = 'b'};
+struct process *current_process = &a;
 
-void interrupt_handler()
+void swap_processes()
 {
+    // echo loopback
     while (!uart->RxEmpty)
         uart->RxTx = uart->RxTx;
 
-    if ('a' == process)
+    if ('a' == current_process->name)
     {
-        process = 'b';
+        current_process = &b;
     }
     else
     {
-        process = 'a';
+        current_process = &a;
     }
 }
 
@@ -53,12 +61,12 @@ void putc(char c)
 
 void aaa()
 {
-    while (1)
+    while (2)
         putc('a');
 }
 
 void bbb()
 {
-    while (1)
+    while (2)
         putc('b');
 }

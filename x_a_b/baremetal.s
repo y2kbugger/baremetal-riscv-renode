@@ -33,10 +33,38 @@ _start:
 
         call init_uart
 
-        j aaa
+forever:
+        j forever
 
+.extern current_process;
+.extern bbb;
 .align 4
 mtvec_interrupt_handler:
-        j interrupt_handler
+
+        # get the old process
+        # lui     t1,%hi(current_process)
+        # lw      t1,%lo(current_process)(t1)
+
+        # store sp from the process
+        # store_x  sp, 0( t0 )
+
+        # store pc from the process
+        csrr a1, mepc
+        sw a1, 0(t1)
+
+        call swap_processes
+
+        # get the new process
+        lui     t1,%hi(current_process)
+        lw      t1,%lo(current_process)(t1)
+
+        # set sp from the process
+        addi      sp, t1, 4
+
+        # set pc from the process
+        lw      t1,0(t1)
+	csrw    mepc, t1
+
+        mret
 
 .common _stack, 20000, 0
