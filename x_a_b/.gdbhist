@@ -1,0 +1,151 @@
+continue 
+q
+break mtvec_interrupt_handler 
+c
+p current_process 
+p current_process->sp
+q
+c
+si
+p $a1
+p current_process 
+q
+c
+si
+p $a1
+p/a  $a1
+q
+c
+si
+q
+c
+si
+q
+c
+p sp
+p $sp
+si
+q
+p _stack
+p/a _stack
+p/a (*)_stack
+p/a (*void)_stack
+c
+p/a (void*)_stack
+p $sp
+q
+p $sp
+break mtvec_interrupt_handler 
+p/a a1
+$
+c
+si
+$gp
+p $gp
+p/a $a1
+p/a $sp
+q
+break mtvec_interrupt_handler 
+c
+p/a $sp
+si
+p/a $a1
+p current_process 
+r
+q
+break mtvec_interrupt_handler 
+c
+p a
+p/a a
+si
+p current_process 
+p &a
+q
+break mtvec_interrupt_handler 
+c
+si
+p &a
+p a
+p &current_process 
+p current_process 
+p gp
+p $gp
+exit
+q
+c
+p $gp
+si
+p __stack
+q
+break mtvec_interrupt_handler 
+c
+p $gp
+si
+p __global_pointer$ 
+p/a __global_pointer$ 
+p/a (*void)__global_pointer$ 
+p/a (void)__global_pointer$ 
+p/a (void*)__global_pointer$ 
+q
+break mtvec_interrupt_handler 
+c
+p $gp
+p __global_pointer$ 
+p __bss_start 
+p (void*)__bss_start 
+p (void*)__DATA_BEGIN__ 
+p (void*)__SDATA_BEGIN__ 
+p (void*)__BSS_END__ 
+q
+break mtvec_interrupt_handler 
+c
+p __global_pointer$ 
+p/a gp
+p/a $gp
+until 59
+si
+p current_process 
+p *current_process 
+p a
+p b
+q
+break mtvec_interrupt_handler 
+c
+a
+p a
+fin
+p/a $a1
+si
+p/a $sp
+q
+break mtvec_interrupt_handler 
+c
+fin
+si
+a
+p/a $sp
+p a
+q
+break mtvec_interrupt_handler 
+c
+fin
+p a
+p aaa
+p (int)aaa
+p *$sp
+p (int*)$sp
+p $sp
+p *(int*)$sp
+si
+c
+q
+break mtvec_interrupt_handler 
+fin
+c
+si
+a2
+p $a2
+p b
+p a
+p current_process 
+q

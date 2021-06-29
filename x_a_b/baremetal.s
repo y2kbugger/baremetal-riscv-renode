@@ -6,6 +6,8 @@
 .equ EventPending, 0x10
 .equ EventEnable, 0x14
 
+.equ memtop, 0x00040000
+
 .section .text
 .global _start      # Provide program starting address to linker
 
@@ -17,7 +19,13 @@ _start:
         csrw   mtvec, t0
 
         # setup a stack pointer
-        la sp, _stack
+        la sp, memtop
+
+        # setup gp
+        .option push
+        .option norelax
+        la gp, __global_pointer$
+        .option pop
 
         # set mstatus.MIE=1 (enable M mode interrupts in general)
         li      t0, 0b0000000000001000
@@ -32,39 +40,55 @@ _start:
         csrrs   zero, mie, t0
 
         call init_uart
+        call init_processes
 
 forever:
         j forever
 
-.extern current_process;
-.extern bbb;
-.align 4
 mtvec_interrupt_handler:
 
-        # get the old process
-        # lui     t1,%hi(current_process)
-        # lw      t1,%lo(current_process)(t1)
+        # a1 <- current_process->sp (sp is first field)
+        lui     t1,%hi(current_process)
+        lw      a1,%lo(current_process)(t1)
 
+        #skip saving if not process started yet
+        beq     a1, zero, no_current_process
+
+        # store pc from the process onto the stack
+        csrr    a2, mepc
+        sw      a2, 0(sp)
+        addi    sp, sp, -4
+        # store another reg, a5
+        sw      a5, 0(sp)
+        addi    sp, sp, -4
+        # store another reg, fp
+        sw      fp, 0(sp)
+        addi    sp, sp, -4
         # store sp from the process
-        # store_x  sp, 0( t0 )
+        # current_process->sp = sp
+        sw      a1, 0(sp)
 
-        # store pc from the process
-        csrr a1, mepc
-        sw a1, 0(t1)
-
+no_current_process:
         call swap_processes
 
-        # get the new process
+        # a1 <- current_process->sp (sp is first field)
         lui     t1,%hi(current_process)
-        lw      t1,%lo(current_process)(t1)
+        lw      a1,%lo(current_process)(t1)
 
-        # set sp from the process
-        addi      sp, t1, 4
-
-        # set pc from the process
-        lw      t1,0(t1)
-	csrw    mepc, t1
+        # restore sp from the process
+        # sp = current_process->sp
+        lw      sp, 0(a1)
+        # restore another reg, fp
+        addi    sp,sp,4
+        lw      fp,0(sp)
+        # restore another reg, a5
+        addi    sp,sp,4
+        lw      a5,0(sp)
+        # restore pc from the process
+        addi    sp,sp,4
+        lw      a2,0(sp)
+	csrw    mepc, a2
 
         mret
 
-.common _stack, 20000, 0
+.common lol, 1000, 'U'

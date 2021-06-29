@@ -14,14 +14,17 @@ const uint32_t TxEvent = 0b01;
 const uint32_t RxEvent = 0b10;
 volatile UART *const uart = (UART *)0x60001800;
 
+#define PROC_STACK_SIZE 200
+
 struct process
 {
-    size_t pc;
-    int32_t stack[200];
+    size_t *sp;
+    size_t stack[PROC_STACK_SIZE];
     char name;
 };
 
 void init_uart();
+void init_processes();
 void putc(char c);
 void fancy_char(char c);
 void swap_processes();
@@ -29,29 +32,41 @@ void swap_processes();
 void aaa();
 void bbb();
 
+struct process a = {.name = 'a'};
+struct process b = {.name = 'b'};
+volatile struct process *current_process = NULL;
+
 void init_uart()
 {
     uart->EventEnable = RxEvent;
 }
 
-struct process a = {.pc = (size_t)&aaa, .name = 'a'};
-struct process b = {.pc = (size_t)&bbb, .name = 'b'};
-struct process *current_process = &a;
+void init_processes()
+{
+    a.sp = &(a.stack[PROC_STACK_SIZE - 1]);
+    b.sp = &(b.stack[PROC_STACK_SIZE - 1]);
+    *(a.sp--) = (size_t)&aaa;
+    *(b.sp--) = (size_t)&bbb;
+
+    // another reg, a5
+    *(a.sp--) = 0;
+    *(b.sp--) = 0;
+    // another reg, fp
+    *(a.sp--) = 0;
+    *(b.sp--) = 0;
+}
 
 void swap_processes()
 {
     // consume buffer
     while (!uart->RxEmpty)
         uart->RxTx;
+    putc('\n');
 
     if ('a' == current_process->name)
-    {
         current_process = &b;
-    }
     else
-    {
         current_process = &a;
-    }
 }
 
 void putc(char c)

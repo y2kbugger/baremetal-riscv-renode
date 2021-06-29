@@ -2,3 +2,6 @@ file image
 target remote localhost:3333
 tui enable
 layout split
+set history filename .gdbhist
+set history save on
+set history remove-duplicates 7
