@@ -48,12 +48,11 @@ void init_processes()
     *(a.sp--) = (size_t)&aaa;
     *(b.sp--) = (size_t)&bbb;
 
-    // another reg, a5
-    *(a.sp--) = 0;
-    *(b.sp--) = 0;
-    // another reg, fp
-    *(a.sp--) = 0;
-    *(b.sp--) = 0;
+    for (size_t i = 28; i > 0; i--)
+    {
+        *(a.sp--) = 0xdeedbeef;
+        *(b.sp--) = 0xdeedbeef;
+    }
 }
 
 void swap_processes()
@@ -76,6 +75,7 @@ void putc(char c)
 
 void aaa()
 {
+    putc('$');
     while (1)
         for (char c = '0'; c <= '9'; c++)
             putc(c);
@@ -83,6 +83,7 @@ void aaa()
 
 void bbb()
 {
+    putc('#');
     while (1)
         for (char c = 'a'; c <= 'z'; c++)
             putc(c);

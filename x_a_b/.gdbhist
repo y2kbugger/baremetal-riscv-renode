@@ -149,3 +149,26 @@ p b
 p a
 p current_process 
 q
+q
+watch a
+c
+p b
+q
+c
+si
+q
+c
+q
+c
+q
+break init_processes 
+start
+c
+watch a
+si
+s
+p a
+q
+q
+q
+q
