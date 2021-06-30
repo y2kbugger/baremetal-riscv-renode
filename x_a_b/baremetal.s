@@ -97,7 +97,7 @@ store_process:
 
         # store sp from the process
         # current_process->sp = sp
-        sw      tp, 0(sp)
+        sw      sp, 0(tp)
 
 no_current_process:
         la      sp, memtop # Switch to ISR stack before calling function
