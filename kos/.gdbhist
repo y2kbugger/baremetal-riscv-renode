@@ -1,0 +1,256 @@
+p $a1
+p current_process 
+q
+c
+si
+p $a1
+p/a  $a1
+q
+c
+si
+q
+c
+si
+q
+c
+p sp
+p $sp
+si
+q
+p _stack
+p/a _stack
+p/a (*)_stack
+p/a (*void)_stack
+c
+p/a (void*)_stack
+p $sp
+q
+p $sp
+break mtvec_interrupt_handler 
+p/a a1
+$
+c
+si
+$gp
+p $gp
+p/a $a1
+p/a $sp
+q
+break mtvec_interrupt_handler 
+c
+p/a $sp
+si
+p/a $a1
+p current_process 
+r
+q
+break mtvec_interrupt_handler 
+c
+p a
+p/a a
+si
+p current_process 
+p &a
+q
+break mtvec_interrupt_handler 
+c
+si
+p &a
+p a
+p &current_process 
+p current_process 
+p gp
+p $gp
+exit
+q
+c
+p $gp
+si
+p __stack
+q
+break mtvec_interrupt_handler 
+c
+p $gp
+si
+p __global_pointer$ 
+p/a __global_pointer$ 
+p/a (*void)__global_pointer$ 
+p/a (void)__global_pointer$ 
+p/a (void*)__global_pointer$ 
+q
+break mtvec_interrupt_handler 
+c
+p $gp
+p __global_pointer$ 
+p __bss_start 
+p (void*)__bss_start 
+p (void*)__DATA_BEGIN__ 
+p (void*)__SDATA_BEGIN__ 
+p (void*)__BSS_END__ 
+q
+break mtvec_interrupt_handler 
+c
+p __global_pointer$ 
+p/a gp
+p/a $gp
+until 59
+si
+p current_process 
+p *current_process 
+p a
+p b
+q
+break mtvec_interrupt_handler 
+c
+a
+p a
+fin
+p/a $a1
+si
+p/a $sp
+q
+break mtvec_interrupt_handler 
+c
+fin
+si
+a
+p/a $sp
+p a
+q
+break mtvec_interrupt_handler 
+c
+fin
+p a
+p aaa
+p (int)aaa
+p *$sp
+p (int*)$sp
+p $sp
+p *(int*)$sp
+si
+c
+q
+break mtvec_interrupt_handler 
+fin
+c
+si
+a2
+p $a2
+p b
+p a
+p current_process 
+q
+q
+watch a
+c
+p b
+q
+c
+si
+q
+c
+q
+c
+q
+break init_processes 
+start
+c
+watch a
+si
+s
+p a
+q
+q
+q
+q
+c
+q
+break restore_process 
+c
+p $tp
+si
+p t0
+p $t0
+x 66472
+q
+break restore_process 
+c
+p tp
+p $tp
+p *$tp
+p (void*)$tp
+p *(void*)$tp
+p (d**)$tp
+*(int*)$tp
+(int*)$tp
+p (int*)$tp
+p *(int*)$tp
+p/a *(int*)$tp
+x 0x116ec
+x/20xw 0x116ec
+x/250xw a
+x/250xw <a>
+x 11aa14
+x 0x11aa14
+x/100xh 0x11aa14
+x/100xh 0x11a14
+x/100xw 0x11a14
+x/250xw $tp
+x/4xw 0x000116ec -2
+x/4xw 0x000116ec
+x/4xw $tp
+x/xw 0x000116ec
+x/50xw 0x000116ec
+x/50xw 0x000116ec+29
+x/50xw 0x000116ec+29*4
+x/50xw 0x000103a8
+x/xw 0x000116ec+29*4
+x/xw 0x000116ec+29*4 +1
+x/xw 0x000116ec+29*4 +1*4
+/xw 
+x/xw 0x00000061
+c
+si
+p $t0
+p/a $t0
+p a
+p/ a
+p/a a
+p/a 0x116ec
+x/xw 0x116ec
+x/20xw 0x116ec
+/830xw 
+x/xw 0x000103a8
+break store_process 
+c
+x/xw $tp
+p a
+p/ a
+x/20xw 0x116ec
+x/29xw 0x116ec
+x/30xw 0x116ec
+
+p/a a
+x/30xw 0x11720
+p/a $sp
+x/40xw 0x116ac
+watch a
+si
+p a
+s
+info watchpoint
+delete 2
+delete 3
+info breakpoints 
+delete 1
+p a
+p sp
+p $sp
+p/a
+p/a a
+si
+p $t0
+p/a $t0
+p/a $sp
+p/a $pc
+q
