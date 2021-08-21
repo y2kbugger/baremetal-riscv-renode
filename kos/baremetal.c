@@ -1,18 +1,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-typedef struct
-{
-    uint32_t RxTx;
-    uint32_t TxFull;
-    uint32_t RxEmpty;
-    uint32_t EventStatus;
-    uint32_t EventPending;
-    uint32_t EventEnable;
-} UART;
-const uint32_t TxEvent = 0b01;
-const uint32_t RxEvent = 0b10;
-volatile UART *const uart = (UART *)0x60001800;
+#include "uart.h"
 
 #define PROC_STACK_SIZE 200
 
@@ -23,10 +12,7 @@ struct process
     char name;
 };
 
-void init_uart();
 void init_processes();
-void putc(char c);
-void fancy_char(char c);
 void swap_processes();
 
 void aaa();
@@ -36,12 +22,7 @@ struct process a = {.name = 'a'};
 struct process b = {.name = 'b'};
 volatile struct process *current_process = NULL;
 
-void init_uart()
-{
-    uart->EventEnable = RxEvent;
-}
-
-void init_processes()
+void init_monitor()
 {
     a.sp = &(a.stack[PROC_STACK_SIZE - 1]);
     b.sp = &(b.stack[PROC_STACK_SIZE - 1]);
@@ -53,24 +34,18 @@ void init_processes()
         *(a.sp--) = 0xdeedbeef;
         *(b.sp--) = 0xdeedbeef;
     }
+    getc(); // Hit enter after boot to get a prompt
+    puts("I Love you, Sara.");
 }
 
 void swap_processes()
 {
-    // consume buffer
-    while (!uart->RxEmpty)
-        uart->RxTx;
     putc('\n');
 
     if ('a' == current_process->name)
         current_process = &b;
     else
         current_process = &a;
-}
-
-void putc(char c)
-{
-    uart->RxTx = c;
 }
 
 void aaa()

@@ -1,11 +1,3 @@
-.equ UART_BASE, 0x60001800
-.equ RxTx, 0x0
-.equ TxFull, 0x04
-.equ RxEmpty, 0x08
-.equ EventStatus, 0x0c
-.equ EventPending, 0x10
-.equ EventEnable, 0x14
-
 .equ memtop, 0x00040000
 .equ XLEN, 4 # 32 bit, 4*8
 
@@ -46,13 +38,14 @@ _start:
         .option pop
 
         call init_uart
-        call init_processes
+        call init_monitor
 
 forever:
         j forever
 
 mtvec_interrupt_handler:
-        #skip saving if not process started yet
+        mret # basically disable interupts for now
+        # skip saving if not process started yet
         beq     tp, zero, no_current_process
 
 store_process:
