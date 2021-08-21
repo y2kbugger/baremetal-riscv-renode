@@ -1,12 +1,3 @@
-continue 
-q
-break mtvec_interrupt_handler 
-c
-p current_process 
-p current_process->sp
-q
-c
-si
 p $a1
 p current_process 
 q
@@ -171,4 +162,95 @@ p a
 q
 q
 q
+q
+c
+q
+break restore_process 
+c
+p $tp
+si
+p t0
+p $t0
+x 66472
+q
+break restore_process 
+c
+p tp
+p $tp
+p *$tp
+p (void*)$tp
+p *(void*)$tp
+p (d**)$tp
+*(int*)$tp
+(int*)$tp
+p (int*)$tp
+p *(int*)$tp
+p/a *(int*)$tp
+x 0x116ec
+x/20xw 0x116ec
+x/250xw a
+x/250xw <a>
+x 11aa14
+x 0x11aa14
+x/100xh 0x11aa14
+x/100xh 0x11a14
+x/100xw 0x11a14
+x/250xw $tp
+x/4xw 0x000116ec -2
+x/4xw 0x000116ec
+x/4xw $tp
+x/xw 0x000116ec
+x/50xw 0x000116ec
+x/50xw 0x000116ec+29
+x/50xw 0x000116ec+29*4
+x/50xw 0x000103a8
+x/xw 0x000116ec+29*4
+x/xw 0x000116ec+29*4 +1
+x/xw 0x000116ec+29*4 +1*4
+/xw 
+x/xw 0x00000061
+c
+si
+p $t0
+p/a $t0
+p a
+p/ a
+p/a a
+p/a 0x116ec
+x/xw 0x116ec
+x/20xw 0x116ec
+/830xw 
+x/xw 0x000103a8
+break store_process 
+c
+x/xw $tp
+p a
+p/ a
+x/20xw 0x116ec
+x/29xw 0x116ec
+x/30xw 0x116ec
+
+p/a a
+x/30xw 0x11720
+p/a $sp
+x/40xw 0x116ac
+watch a
+si
+p a
+s
+info watchpoint
+delete 2
+delete 3
+info breakpoints 
+delete 1
+p a
+p sp
+p $sp
+p/a
+p/a a
+si
+p $t0
+p/a $t0
+p/a $sp
+p/a $pc
 q

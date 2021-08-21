@@ -12,7 +12,7 @@ sysbus LoadELF @image
 
 machine StartGdbServer 3333
 
-# start
+start
 
 emulation SetPerformance 0.001
 
