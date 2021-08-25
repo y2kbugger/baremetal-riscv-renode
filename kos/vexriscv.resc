@@ -16,5 +16,5 @@ start
 
 emulation SetPerformance 0.001
 
-emulation CreateServerSocketTerminal 1234 "externalUART" true
+emulation CreateServerSocketTerminal 1234 "externalUART" false
 connector Connect uart externalUART

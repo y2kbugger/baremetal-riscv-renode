@@ -9,7 +9,7 @@ launch: image
 	renode vexriscv.resc --console
 
 uart:
-	telnet localhost 1234
+	netcat localhost 1234
 
 debug:
 	riscv32-unknown-elf-gdb -x gdbrc
