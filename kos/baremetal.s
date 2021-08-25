@@ -44,7 +44,6 @@ forever:
         j forever
 
 mtvec_interrupt_handler:
-        mret # basically disable interupts for now
         # skip saving if not process started yet
         beq     tp, zero, no_current_process
 
@@ -94,7 +93,7 @@ store_process:
 
 no_current_process:
         la      sp, memtop # Switch to ISR stack before calling function
-        call    swap_processes
+        call    schedule_processes
 
         # squat on tp to hold current process and not get clobbered
         lui     tp, %hi(current_process)
@@ -145,5 +144,3 @@ restore_process:
         addi    sp, sp, 29*XLEN   # deallocate space for context
 
         mret
-
-
