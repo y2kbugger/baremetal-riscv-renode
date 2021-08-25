@@ -2,7 +2,7 @@ ifndef BAREMETAL_RISCV_RENODE
 $(error Toolchain not activated. Be sure to `source ../activate-toolchains.sh`)
 endif
 
-image: *.s **/*.c
+image: src/*.s src/*.c src/**/*.c
 	riscv32-unknown-elf-gcc $^ -Wall -ggdb -O0 -o image -ffreestanding -nostdlib
 
 launch: image
