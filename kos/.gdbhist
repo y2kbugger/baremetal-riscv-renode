@@ -1,33 +1,3 @@
-p $a1
-p current_process 
-q
-c
-si
-p $a1
-p/a  $a1
-q
-c
-si
-q
-c
-si
-q
-c
-p sp
-p $sp
-si
-q
-p _stack
-p/a _stack
-p/a (*)_stack
-p/a (*void)_stack
-c
-p/a (void*)_stack
-p $sp
-q
-p $sp
-break mtvec_interrupt_handler 
-p/a a1
 $
 c
 si
@@ -254,3 +224,33 @@ p/a $t0
 p/a $sp
 p/a $pc
 q
+c
+apropos out
+60
+60 si
+until 30
+si
+stack
+trace
+q
+break mtvec_interrupt_handler 
+c
+until 102
+si
+p sp
+p $sp
+p *(void)$sp
+p *$sp
+p *(void)$sp
+p *(void **)$sp
+p current_process 
+p current_process->sp
+p current_process->stack 
+p x current_process->stack 
+p /x current_process->stack 
+until 102
+until 146
+until 141
+until 77
+until 100
+si
