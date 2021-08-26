@@ -16,12 +16,12 @@ void init_process(struct Process *p, void *function)
     }
 }
 
-struct Process *lookup_process(char id)
+struct Process *lookup_process(unsigned char id)
 {
     return &PROCESSES[id];
 }
 
-void add_process(char id, void *function)
+void add_process(unsigned char id, void *function)
 {
     struct Process *p = lookup_process(id);
     p->name = id;

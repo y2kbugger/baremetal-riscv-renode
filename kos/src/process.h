@@ -10,11 +10,11 @@ struct Process
 {
     size_t *sp;
     size_t stack[PROC_STACK_SIZE];
-    char name;
+    unsigned char name;
 };
 
-void add_process(char id, void *function);
-struct Process *lookup_process(char id);
+void add_process(unsigned char id, void *function);
+struct Process *lookup_process(unsigned char id);
 void init_process(struct Process *p, void *function);
 
 #endif /* PROCESS_H */
