@@ -9,6 +9,7 @@ void monitor()
         puts("Programs:\n");
         puts(" h: hello world\n");
         puts(" l: laugh\n");
+        puts(" f: laugh forever\n");
         puts("Choose a program to start: ");
 
         char name;

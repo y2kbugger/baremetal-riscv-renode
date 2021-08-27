@@ -8,5 +8,6 @@ void init_all_processes()
 {
     add_process('h', helloworld);
     add_process('l', lol);
+    add_process('f', laugh_forever);
     add_process('m', monitor);
 }
