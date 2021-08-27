@@ -4,17 +4,19 @@
 
 void monitor()
 {
-    puts("Programs:\n");
-    puts(" h: hello world\n");
-    puts(" l: laugh\n");
-    puts("Choose a program to start: ");
+    while (1)
+    {
+        puts("Programs:\n");
+        puts(" h: hello world\n");
+        puts(" l: laugh\n");
+        puts("Choose a program to start: ");
 
-    char name;
-    while ((name = getc()) == '\n')
-        ;
+        char name;
+        while ((name = getc()) == '\n')
+            ;
 
-    struct Process *p = lookup_process(name);
-    reset_process(p);
-    next_process = p;
-    asm volatile("ecall");
+        struct Process *p = lookup_process(name);
+        reset_process(p);
+        next_process = p;
+    }
 }

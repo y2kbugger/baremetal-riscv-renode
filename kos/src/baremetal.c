@@ -29,7 +29,6 @@ void schedule_processes()
 void end_this_process()
 {
     struct Process *p = lookup_process('m');
-    reset_process(p);
     next_process = p;
     asm volatile("ecall");
 }
