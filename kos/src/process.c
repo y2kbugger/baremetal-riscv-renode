@@ -25,6 +25,8 @@ struct Process *init_process(struct Program *program)
         *(proc->sp--) = 0xdeedbeef;
     }
 
+    proc->status = Ready;
+
     return proc;
 }
 

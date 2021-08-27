@@ -6,6 +6,13 @@
 
 #define PROC_STACK_SIZE 200
 
+enum ProcessStatus
+{
+    Ready,
+    Running,
+    Dead
+};
+
 struct Program
 {
     void (*function)();
@@ -16,6 +23,7 @@ struct Process
 {
     size_t *sp;
     struct Program *program;
+    enum ProcessStatus status;
     size_t stack[PROC_STACK_SIZE];
 };
 

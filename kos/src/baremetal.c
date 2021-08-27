@@ -21,15 +21,20 @@ void init_kernel()
 
 void schedule_processes()
 {
-    if (next_process != NULL)
-    {
-        current_process = next_process;
-        next_process = NULL;
-    }
+    if (next_process == NULL)
+        return;
+
+    if (current_process->status != Dead)
+        current_process->status = Ready;
+
+    current_process = next_process;
+    current_process->status = Running;
+    next_process = NULL;
 }
 
 void end_this_process()
 {
+    current_process->status = Dead;
     next_process = lookup_process(0); // monitor
     asm volatile("ecall");
 }

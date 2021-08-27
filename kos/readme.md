@@ -1,4 +1,5 @@
 next:
+I want to stop a process and resume it.
 I want to run multiple infinite loops at the same time
     need to increase smartness of scheduler
     needs a process state flag
