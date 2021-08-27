@@ -24,8 +24,11 @@ void schedule_processes()
     if (next_process == NULL)
         return;
 
-    if (current_process->status != Dead)
+    if (current_process->status == Running)
         current_process->status = Ready;
+
+    if (current_process->status == Stopping)
+        current_process->status = Stopped;
 
     current_process = next_process;
     current_process->status = Running;

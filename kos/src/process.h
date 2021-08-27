@@ -10,7 +10,9 @@ enum ProcessStatus
 {
     Ready,
     Running,
-    Dead
+    Dead,
+    Stopping,
+    Stopped,
 };
 
 struct Program

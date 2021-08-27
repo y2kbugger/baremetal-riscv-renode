@@ -16,6 +16,13 @@ void monitor()
         while ((name = getc()) == '\n')
             ;
 
+        if (name == '!')
+        {
+            // handling stopping a process here
+            // last_process->status = Stopping;
+            continue;
+        }
+
         struct Program *program = lookup_program(name);
         struct Process *proc = init_process(program);
         next_process = proc;
