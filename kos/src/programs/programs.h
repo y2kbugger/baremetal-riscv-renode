@@ -1,6 +1,6 @@
 #ifndef PROCESSES_H
 #define PROCESSES_H
 
-void init_all_processes();
+void register_all_programs();
 
 #endif /* PROCESSES_H */

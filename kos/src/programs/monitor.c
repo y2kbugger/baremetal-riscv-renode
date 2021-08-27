@@ -1,6 +1,6 @@
 #include "../baremetal.h"
 #include "../uart.h"
-#include "processes.h"
+#include "programs.h"
 
 void monitor()
 {
@@ -16,8 +16,8 @@ void monitor()
         while ((name = getc()) == '\n')
             ;
 
-        struct Process *p = lookup_process(name);
-        reset_process(p);
-        next_process = p;
+        struct Program *program = lookup_program(name);
+        struct Process *proc = init_process(program);
+        next_process = proc;
     }
 }

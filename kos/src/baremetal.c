@@ -5,7 +5,7 @@
 #include "uart.h"
 #include "timer.h"
 #include "process.h"
-#include "processes/processes.h"
+#include "programs/programs.h"
 
 volatile struct Process *current_process;
 volatile struct Process *next_process;
@@ -14,8 +14,8 @@ void init_kernel()
 {
     init_uart();
     init_timer();
-    init_all_processes();
-    current_process = lookup_process('m');
+    register_all_programs();
+    current_process = init_process(lookup_program('m'));
     asm volatile("ecall");
 }
 
@@ -30,7 +30,6 @@ void schedule_processes()
 
 void end_this_process()
 {
-    struct Process *p = lookup_process('m');
-    next_process = p;
+    next_process = lookup_process(0); // monitor
     asm volatile("ecall");
 }

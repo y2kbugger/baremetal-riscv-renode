@@ -6,17 +6,22 @@
 
 #define PROC_STACK_SIZE 200
 
-struct Process
+struct Program
 {
-    size_t *sp;
     void (*function)();
-    size_t stack[PROC_STACK_SIZE];
     unsigned char name;
 };
 
-void add_process(unsigned char id, void (*function)());
-struct Process *lookup_process(unsigned char id);
-void init_process(struct Process *p, void (*function)());
-void reset_process(struct Process *p);
+struct Process
+{
+    size_t *sp;
+    struct Program *program;
+    size_t stack[PROC_STACK_SIZE];
+};
+
+void register_program(unsigned char id, void (*function)());
+struct Program *lookup_program(unsigned char id);
+struct Process *lookup_process(unsigned int id);
+struct Process *init_process(struct Program *p);
 
 #endif /* PROCESS_H */
