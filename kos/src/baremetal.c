@@ -3,6 +3,7 @@
 
 #include "baremetal.h"
 #include "uart.h"
+#include "timer.h"
 #include "process.h"
 #include "processes/processes.h"
 
@@ -12,6 +13,7 @@ volatile struct Process *next_process;
 void init_kernel()
 {
     init_uart();
+    init_timer();
     init_all_processes();
     current_process = lookup_process('m');
     asm volatile("ecall");

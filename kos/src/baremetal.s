@@ -93,6 +93,7 @@ store_process:
 no_current_process:
         la      sp, memtop # Switch to ISR stack before calling function
         call    schedule_processes
+        call    clear_timer
 
         # squat on tp to hold current process and not get clobbered
         lui     tp, %hi(current_process)

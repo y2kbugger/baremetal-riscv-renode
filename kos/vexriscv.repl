@@ -7,8 +7,8 @@ mem: Memory.MappedMemory @ sysbus 0x0
 
 cpu: CPU.VexRiscv @ sysbus
 
-timer: Timers.LiteX_Timer @ sysbus 0x60002800
-    frequency: 100000000
+timer: Timers.PeriodicInterruptTimer @ sysbus <0x60002800, +0x1000>
+    -> cpu@1
 
 uart: UART.LiteX_UART @ sysbus 0x60001800
     -> cpu@2
