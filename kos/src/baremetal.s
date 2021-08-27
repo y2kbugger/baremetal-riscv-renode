@@ -37,8 +37,7 @@ _start:
         la gp, __global_pointer$
         .option pop
 
-        call init_uart
-        call init_monitor
+        call init_kernel
 
 forever:
         j forever
