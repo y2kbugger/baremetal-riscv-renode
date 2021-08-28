@@ -2,7 +2,7 @@
 #include "../uart.h"
 #include "programs.h"
 
-void monitor()
+void shell()
 {
     while (1)
     {

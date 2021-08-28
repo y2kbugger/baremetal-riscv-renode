@@ -3,7 +3,7 @@
 #include "helloworld.h"
 #include "lol.h"
 #include "count.h"
-#include "monitor.h"
+#include "shell.h"
 
 void register_all_programs()
 {
@@ -11,5 +11,5 @@ void register_all_programs()
     register_program('l', lol);
     register_program('f', laugh_forever);
     register_program('c', count_forever);
-    register_program('m', monitor);
+    register_program('s', shell);
 }

@@ -14,7 +14,7 @@ void init_kernel()
 {
     init_uart();
     register_all_programs();
-    current_process = init_process(lookup_program('m'));
+    current_process = init_process(lookup_program('s'));
     init_timer();
     asm volatile("ecall");
 }
@@ -38,6 +38,6 @@ void schedule_processes()
 void end_this_process()
 {
     current_process->status = Dead;
-    next_process = lookup_process(0); // monitor
+    next_process = lookup_process(0); // shell
     asm volatile("ecall");
 }
