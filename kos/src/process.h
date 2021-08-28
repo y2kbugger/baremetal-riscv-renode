@@ -8,6 +8,7 @@
 
 enum ProcessStatus
 {
+    Uninitialized,
     Ready,
     Running,
     Dead,
@@ -31,7 +32,8 @@ struct Process
 
 void register_program(unsigned char id, void (*function)());
 struct Program *lookup_program(unsigned char id);
-struct Process *lookup_process(unsigned int id);
 struct Process *init_process(struct Program *p);
+struct Process *lookup_process(unsigned int id);
+struct Process *next_ready_process(struct Process *current_process);
 
 #endif /* PROCESS_H */

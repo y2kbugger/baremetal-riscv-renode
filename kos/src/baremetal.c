@@ -7,22 +7,22 @@
 #include "process.h"
 #include "programs/programs.h"
 
-volatile struct Process *current_process;
-volatile struct Process *next_process;
+struct Process *current_process;
+struct Process *next_process;
 
 void init_kernel()
 {
     init_uart();
-    init_timer();
     register_all_programs();
     current_process = init_process(lookup_program('m'));
+    init_timer();
     asm volatile("ecall");
 }
 
 void schedule_processes()
 {
     if (next_process == NULL)
-        return;
+        next_process = next_ready_process(current_process);
 
     if (current_process->status == Running)
         current_process->status = Ready;

@@ -3,8 +3,10 @@
 
 #include "process.h"
 
+#define MAX_PROCESS_COUNT 10
+
 struct Program PROGRAMS[256];
-struct Process PROCESSES[10];
+struct Process PROCESSES[MAX_PROCESS_COUNT];
 
 struct Process *_get_free_proc()
 {
@@ -45,4 +47,17 @@ void register_program(unsigned char id, void (*function)())
     struct Program *program = lookup_program(id);
     program->function = function;
     program->name = id;
+}
+
+struct Process *next_ready_process(struct Process *current_process)
+{
+    size_t current_process_idx = current_process - PROCESSES;
+    for (size_t i = 1; i <= MAX_PROCESS_COUNT; i++)
+    {
+        size_t proc_idx = (i + current_process_idx) % MAX_PROCESS_COUNT;
+        struct Process *proc = &PROCESSES[proc_idx];
+        if (proc->status == Ready)
+            return proc;
+    }
+    return NULL;
 }

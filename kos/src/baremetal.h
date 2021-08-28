@@ -3,8 +3,8 @@
 
 #include "process.h"
 
-extern volatile struct Process *current_process;
-extern volatile struct Process *next_process;
+extern struct Process *current_process;
+extern struct Process *next_process;
 void end_this_process();
 
 #endif /* BAREMETAL_H */
