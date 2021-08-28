@@ -27,8 +27,6 @@ void shell()
             continue;
         }
 
-        struct Program *program = lookup_program(name);
-        struct Process *proc = init_process(program);
-        next_process = proc;
+        init_process(lookup_program(name));
     }
 }
