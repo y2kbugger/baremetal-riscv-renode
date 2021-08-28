@@ -1,0 +1,1 @@
+void count_forever();

@@ -10,6 +10,7 @@ void monitor()
         puts(" h: hello world\n");
         puts(" l: laugh\n");
         puts(" f: laugh forever\n");
+        puts(" c: count forever\n");
         puts("Launch one or more programs by submitting characters.\n");
         // puts("! will stop the currently running process.\n");
         // puts("An empty return will list info about currently running processes.\n");
