@@ -27,6 +27,11 @@ void shell()
             continue;
         }
 
-        init_process(lookup_program(name));
+        if (NULL == init_process(lookup_program(name)))
+        {
+            puts("Failed to start ");
+            putc(name);
+            putc('\n');
+        }
     }
 }

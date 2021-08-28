@@ -1,5 +1,4 @@
 next:
-bug - process corrupts in race condition when multitasking (~1/8 times launching)
 I want to stop a process and resume it.
     EOF can be sent via CTRL-D ('\004')
 I want processes to be able make kernel ecalls and return to just after the call
@@ -7,7 +6,6 @@ I want other programs to be able to use the IO uninterupted while shell and othe
     could have notion of fg and bg
     We could "peek" at next char and then ignore if it should belong to other process.
 i want to know if a Process has blown stack
-i want to know if we don't have room to allocate a new process
 i want programs to be able to request sleep
 
 Persistance. e.g. storage peripherial and filesystem

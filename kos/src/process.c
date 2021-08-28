@@ -12,12 +12,18 @@ struct Process *_get_free_proc()
 {
     // naive non-reuse implementation
     static int count = 0;
+    if (count >= MAX_PROCESS_COUNT)
+        return NULL;
     return &PROCESSES[count++];
 }
 
 struct Process *init_process(struct Program *program)
 {
     struct Process *proc = _get_free_proc();
+
+    if (proc == NULL)
+        return NULL;
+
     proc->program = program;
     proc->sp = &(proc->stack[PROC_STACK_SIZE - 1]);
     *(proc->sp--) = (size_t)program->function;
