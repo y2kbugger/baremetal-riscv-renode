@@ -3,8 +3,9 @@ bug - jumping to 0x0 for no reason once at startup, but only when timer IRQ is e
 bug - process corrupts in race condition when multitasking (~1/8 times launching)
 I want to stop a process and resume it.
     EOF can be sent via CTRL-D ('\004')
-I want monitor to have ability to suppress it's own prompt after launching so that other programs can use IO uninterupted
-    Need a way for monitor to poll kernel for process statuses
+I want other programs to be able to use the IO uninterupted while shell and others run int the background
+    could have notion of fg and bg
+    We could "peek" at next char and then ignore if it should belong to other process.
 i want to know if a Process has blown stack
 i want to know if we don't have room to allocate a new process
 i want programs to be able to request sleep
