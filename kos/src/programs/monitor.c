@@ -10,7 +10,10 @@ void monitor()
         puts(" h: hello world\n");
         puts(" l: laugh\n");
         puts(" f: laugh forever\n");
-        puts("Choose a program to start: ");
+        puts("Launch one or more programs by submitting characters.\n");
+        // puts("! will stop the currently running process.\n");
+        // puts("An empty return will list info about currently running processes.\n");
+        puts("$ ");
 
         char name;
         while ((name = getc()) == '\n')

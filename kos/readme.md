@@ -1,8 +1,7 @@
 next:
-I want to stop a process and resume it.
 I want to run multiple infinite loops at the same time
     need to increase smartness of scheduler
-    needs a process state flag
+I want to stop a process and resume it.
 I want to launch multiple instance of program
 I want monitor to have ability to suppress it's own prompt after launching so that other programs can use IO uninterupted
     Need a way for monitor to poll kernel for process statuses
