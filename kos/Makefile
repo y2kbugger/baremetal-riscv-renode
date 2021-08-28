@@ -3,7 +3,7 @@ $(error Toolchain not activated. Be sure to `source ../activate-toolchains.sh`)
 endif
 
 image: src/*.s src/*.c src/**/*.c
-	riscv32-unknown-elf-gcc $^ -Wall -ggdb -O0 -o image -ffreestanding -nostdlib
+	riscv32-unknown-elf-gcc $^ -Wall -ggdb -O0 -o image -ffreestanding -nostdlib -lgcc
 
 launch: image
 	renode vexriscv.resc --console
