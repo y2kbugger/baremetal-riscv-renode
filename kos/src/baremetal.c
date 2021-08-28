@@ -24,6 +24,9 @@ void schedule_processes()
     if (next_process == NULL)
         next_process = next_ready_process(current_process);
 
+    if (next_process == NULL)
+        return;
+
     if (current_process->status == Running)
         current_process->status = Ready;
 

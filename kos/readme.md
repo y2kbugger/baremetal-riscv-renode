@@ -1,8 +1,8 @@
 next:
-bug - jumping to 0x0 for no reason once at startup, but only when timer IRQ is enabled
 bug - process corrupts in race condition when multitasking (~1/8 times launching)
 I want to stop a process and resume it.
     EOF can be sent via CTRL-D ('\004')
+I want processes to be able make kernel ecalls and return to just after the call
 I want other programs to be able to use the IO uninterupted while shell and others run int the background
     could have notion of fg and bg
     We could "peek" at next char and then ignore if it should belong to other process.
