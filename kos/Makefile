@@ -9,7 +9,7 @@ launch: image
 	renode vexriscv.resc --console
 
 uart:
-	netcat localhost 1234
+	stty -icanon && netcat localhost 1234 && stty sane
 
 debug:
 	riscv32-unknown-elf-gdb -x gdbrc
