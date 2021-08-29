@@ -2,6 +2,7 @@ I want:
 - to be able to list stopped processes.
 - to be able to resume stopped processes to background.
 - processes to be able make kernel ecalls and return to just after the call
+- all Process mutating functions to happen via kernel call so that race conditions are rendered impossible. e.g. stop all running processes is current called straight from the shell.
 - shell to handle line editing so multi-character commands will be possible
 - to know if a Process has blown stack
 - programs to be able to request sleep
