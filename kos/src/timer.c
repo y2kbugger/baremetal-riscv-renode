@@ -36,3 +36,8 @@ void clear_timer()
 {
     timer->Flag = 0;
 }
+
+void disable_timer()
+{
+    timer->Control = 0;
+}
