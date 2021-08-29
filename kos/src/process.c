@@ -67,3 +67,15 @@ struct Process *next_ready_process(struct Process *current_process)
     }
     return NULL;
 }
+
+void stop_all_processes_except(struct Process *excepted_process)
+{
+    for (size_t i = 0; i < MAX_PROCESS_COUNT; i++)
+    {
+        struct Process *proc = &PROCESSES[i];
+        if (proc == excepted_process)
+            continue;
+        if (proc->status == Ready)
+            proc->status = Stopped;
+    }
+}
