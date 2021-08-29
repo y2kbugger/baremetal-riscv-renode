@@ -79,8 +79,8 @@ void shell()
         if (peekc() == '!')
         {
             getc();
-            putc('\n');
             stop_all_processes_except(current_process);
+            putc('\n');
         }
     }
 }
