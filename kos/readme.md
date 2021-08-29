@@ -1,23 +1,20 @@
-next:
-I want to stop a process and resume it.
-    EOF can be sent via CTRL-D ('\004')
-I want processes to be able make kernel ecalls and return to just after the call
-I want other programs to be able to use the IO uninterupted while shell and others run int the background
-    could have notion of fg and bg
-    We could "peek" at next char and then ignore if it should belong to other process.
-i want to know if a Process has blown stack
-i want programs to be able to request sleep
+I want:
+- to be able to list stopped processes.
+- to be able to resume stopped processes to background.
+- processes to be able make kernel ecalls and return to just after the call
+- shell to handle line editing so multi-character commands will be possible
+- to know if a Process has blown stack
+- programs to be able to request sleep
+- to  be able to recycle process objects
+- count forever to count higher than 9
+- I want to be able to persist data between launches
+    - so that I can make a file editor
+    - so that I can make a filesystem
+    - so that I can write another driver and learn mass storage
+- to design Simple FPGA-able matrix-multiply accelerator
+    - verilate the matmul, attach to renode
+    - write driver for matmul
+- Run everything on a real FPGA
 
-Persistance. e.g. storage peripherial and filesystem
-design Simple FPGA-able matrix-multiply accelerator
-    high level or verilog?
-verilate the matmul, attach to renode
-driver for matmul
-Run everything on a real FPGA
-
-Usage:
-
-You can launch process via a single char.
-Multiple process can be queued simply by putting multiple process ids
-
-    hlhlhl
+Bugs:
+- crash because of requesting an unregistered program name
