@@ -3,6 +3,6 @@
 
 void helloworld()
 {
-    puts("Hello World\n");
+    puts("Hello World");
     end_this_process();
 }
