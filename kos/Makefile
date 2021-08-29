@@ -14,6 +14,9 @@ start: image
 uart:
 	stty -icanon && netcat localhost 1234 && stty sane
 
+uart-poll:
+	@printf ...\\n; while true; do stty -icanon; netcat localhost 1234 2>/dev/null && printf \\n...\\n; stty sane; sleep 1; done;
+
 debug:
 	riscv32-unknown-elf-gdb -x gdbrc
 
