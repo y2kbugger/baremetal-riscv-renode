@@ -40,7 +40,7 @@ void shell()
 {
     while (1)
     {
-        puts("kos> ");
+        puts("\nkos> ");
 
         char name;
         while ((name = getc()) == '\n')
@@ -65,6 +65,12 @@ void shell()
             continue;
         }
 
+        if (name == '!')
+        {
+            stop_all_processes_except(current_process);
+            continue;
+        }
+
         struct Process *proc;
         if (NULL == (proc = init_process(lookup_program(name))))
         {
@@ -80,7 +86,6 @@ void shell()
         {
             getc();
             stop_all_processes_except(current_process);
-            putc('\n');
         }
     }
 }
