@@ -55,14 +55,22 @@ void register_program(unsigned char id, void (*function)())
     program->name = id;
 }
 
-struct Process *next_ready_process(struct Process *current_process)
+// Return the next Process matching a given status.
+// If only current_process matches, return it.
+// If no Process matches, return NULL.
+// Pass status=-1 to match all initialized Process
+struct Process *next_process_of_status(struct Process *current_process, enum ProcessStatus status)
 {
     size_t current_process_idx = current_process - PROCESSES;
     for (size_t i = 1; i <= MAX_PROCESS_COUNT; i++)
     {
         size_t proc_idx = (i + current_process_idx) % MAX_PROCESS_COUNT;
         struct Process *proc = &PROCESSES[proc_idx];
-        if (proc->status == Ready)
+
+        if (status == (enum ProcessStatus)(-1) && proc->status != Uninitialized)
+            return proc;
+
+        if (proc->status == status)
             return proc;
     }
     return NULL;

@@ -22,7 +22,7 @@ void init_kernel()
 void schedule_processes()
 {
     if (next_process == NULL)
-        next_process = next_ready_process(current_process);
+        next_process = next_process_of_status(current_process, Ready);
 
     if (next_process == NULL)
         return;

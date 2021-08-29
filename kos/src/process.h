@@ -34,7 +34,7 @@ void register_program(unsigned char id, void (*function)());
 struct Program *lookup_program(unsigned char id);
 struct Process *init_process(struct Program *p);
 struct Process *lookup_process(unsigned int id);
-struct Process *next_ready_process(struct Process *current_process);
+struct Process *next_process_of_status(struct Process *current_process, enum ProcessStatus status);
 void stop_all_processes_except(struct Process *excepted_process);
 
 #endif /* PROCESS_H */
