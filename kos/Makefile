@@ -8,6 +8,9 @@ image: src/*.s src/*.c src/**/*.c
 launch: image
 	renode vexriscv.resc --console
 
+start: image
+	renode -e "include @vexriscv.resc" -e "start" --console
+
 uart:
 	stty -icanon && netcat localhost 1234 && stty sane
 
