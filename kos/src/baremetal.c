@@ -41,6 +41,5 @@ void schedule_processes()
 void end_this_process()
 {
     current_process->status = Dead;
-    next_process = lookup_process(0); // shell
     asm volatile("ecall");
 }
