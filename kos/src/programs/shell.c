@@ -13,9 +13,20 @@ void _usage()
 
     puts("Shell commands:\n");
     puts("    ?: show this help\n");
-    // puts("    @: list stopped processes\n");
+    puts("    @: list stopped processes\n");
     // puts("    ^: restart all stopped processes in background\n");
     puts("    !: stop all processes. This can be used while program\n\tis running in foreground or at prompt to kill any background processes.\n");
+}
+
+void print_stopped_processes()
+{
+    struct Process *proc = lookup_process(0);
+    while ((proc = next_process_of_status(proc, Stopped, false)) != NULL)
+    {
+        puts("  - ");
+        putc(proc->program->name);
+        putc('\n');
+    }
 }
 void shell()
 {
@@ -31,6 +42,12 @@ void shell()
         if (name == '?')
         {
             _usage();
+            continue;
+        }
+
+        if (name == '@')
+        {
+            print_stopped_processes();
             continue;
         }
 

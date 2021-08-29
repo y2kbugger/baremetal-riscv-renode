@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 #include <unistd.h>
 
 #include "process.h"
@@ -59,12 +60,22 @@ void register_program(unsigned char id, void (*function)())
 // If only current_process matches, return it.
 // If no Process matches, return NULL.
 // Pass status=-1 to match all initialized Process
-struct Process *next_process_of_status(struct Process *current_process, enum ProcessStatus status)
+//
+// Use wrap=true to find the next process when traversing from an arbitray point.
+// Use wrap=false when traversing from start to end.
+// e.g.
+//
+//    struct Process *proc = lookup_process(0);
+//    while ((proc = next_process_of_status(proc, Stopped, false)) != NULL)
+struct Process *next_process_of_status(struct Process *current_process, enum ProcessStatus status, bool wrap)
 {
     size_t current_process_idx = current_process - PROCESSES;
     for (size_t i = 1; i <= MAX_PROCESS_COUNT; i++)
     {
         size_t proc_idx = (i + current_process_idx) % MAX_PROCESS_COUNT;
+        if ((proc_idx <= current_process_idx) && !wrap)
+            return NULL;
+
         struct Process *proc = &PROCESSES[proc_idx];
 
         if (status == (enum ProcessStatus)(-1) && proc->status != Uninitialized)
