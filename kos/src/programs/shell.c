@@ -7,6 +7,7 @@ void _usage()
 {
     puts("Programs:\n");
     puts("    h: hello world\n");
+    puts("    e: hello ecall world\n");
     puts("    l: laugh\n");
     puts("    f: laugh forever\n");
     puts("    c: count forever\n");
