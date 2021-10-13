@@ -72,12 +72,22 @@ void shell()
             continue;
         }
 
-        struct Process *proc;
-        if (NULL == (proc = init_process(lookup_program(name))))
+        struct Program *prog = lookup_program(name);
+        if (name != prog->name)
         {
-            puts("Failed to start ");
+            puts("No program `");
             putc(name);
-            putc('\n');
+            puts("` registered\n");
+            continue;
+        }
+
+        struct Process *proc = init_process(prog);
+        if (NULL == proc)
+        {
+            puts("Failed to start `");
+            putc(name);
+            puts("`\n");
+            continue;
         }
 
         while (proc->status == Ready && peekc() != '!')
