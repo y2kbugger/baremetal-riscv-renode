@@ -1,9 +1,9 @@
 I want:
 - all Process mutating functions to happen via kernel call so that race conditions are rendered impossible. e.g. stop all running processes is current called straight from the shell.
-- shell to handle line editing so multi-character commands will be possible
-- to know if a Process has blown stack
 - programs to be able to request sleep
 - to  be able to recycle process objects
+- shell to handle line editing so multi-character commands will be possible
+- to know if a Process has blown stack
 - count forever to count higher than 9
 - I want to be able to persist data between launches
     - so that I can make a file editor
@@ -15,4 +15,4 @@ I want:
 - Run everything on a real FPGA
 
 Bugs:
-- crash because of requesting an unregistered program name
+-
