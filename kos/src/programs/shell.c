@@ -47,9 +47,10 @@ void start_stopped_processes()
 
 void shell()
 {
+    putc('\n');
     while (1)
     {
-        puts("\nkos> ");
+        puts("kos> ");
         char name = getc();
         putc('\n');
 

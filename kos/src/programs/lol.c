@@ -3,7 +3,7 @@
 
 void lol()
 {
-    puts("hahahahahahaha");
+    puts("hahahahahahaha\n");
     end_this_process();
 }
 
