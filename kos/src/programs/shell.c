@@ -3,8 +3,8 @@
 #include "../timer.h"
 #include "programs.h"
 
-const char SIGSTOP = '\032';
-const char SIGKILL = '\003';
+#define SIGSTOP '\032'
+#define SIGKILL '\003'
 
 void try_start_foreground_process(char name);
 void run_foreground_process(struct Process *proc);
@@ -54,79 +54,66 @@ void shell()
         char name = getc();
         putc('\n');
 
-        if (name == '\n')
-            continue;
-
-        if (name == SIGSTOP)
-            continue;
-
-        if (name == SIGKILL)
-            continue;
-
-        if (name == '?')
+        switch (name)
         {
+        case '\n':
+        case SIGSTOP:
+        case SIGKILL:
+            break;
+        case '?':
             _usage();
-            continue;
-        }
-
-        if (name == '@')
-        {
+            break;
+        case '@':
             print_stopped_processes();
-            continue;
-        }
-
-        if (name == '^')
-        {
+            break;
+        case '^':
             start_stopped_processes();
-            continue;
-        }
-
-        if (name == '!')
-        {
+            break;
+        case '!':
             stop_all_processes_except(current_process);
-            continue;
+            break;
+        default:
+            try_start_foreground_process(name);
         }
-
-        try_start_foreground_process(name);
     }
 }
 
 void try_start_foreground_process(char name)
 {
-        struct Program *prog = lookup_program(name);
-        if (name != prog->name)
-        {
-            puts("No program `");
-            putc(name);
-            puts("` registered\n");
+    struct Program *prog = lookup_program(name);
+    if (name != prog->name)
+    {
+        puts("No program `");
+        putc(name);
+        puts("` registered\n");
         return;
-        }
+    }
 
-        struct Process *proc = init_process(prog);
-        if (NULL == proc)
-        {
-            puts("Failed to start `");
-            putc(name);
-            puts("`\n");
+    struct Process *proc = init_process(prog);
+    if (NULL == proc)
+    {
+        puts("Failed to start `");
+        putc(name);
+        puts("`\n");
         return;
-        }
+    }
 
     run_foreground_process(proc);
 }
 
 void run_foreground_process(struct Process *proc)
 {
-        while (proc->status == Ready)
+    while (proc->status == Ready)
+    {
+        if (peekc() == SIGKILL)
         {
-            if (peekc() == SIGKILL)
-            {
-                getc();
-                proc->status = Dead;
-            }
-            else if (peekc() == SIGSTOP)
-            {
-                getc();
-                proc->status = Stopped;
+            getc();
+            proc->status = Dead;
+        }
+        else if (peekc() == SIGSTOP)
+        {
+            getc();
+            proc->status = Stopped;
         }
     }
 }
