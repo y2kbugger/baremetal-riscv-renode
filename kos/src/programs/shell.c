@@ -6,6 +6,9 @@
 const char SIGSTOP = '\032';
 const char SIGKILL = '\003';
 
+void try_start_foreground_process(char name);
+void run_foreground_process(struct Process *proc);
+
 void _usage()
 {
     puts("Programs:\n");
@@ -83,13 +86,19 @@ void shell()
             continue;
         }
 
+        try_start_foreground_process(name);
+    }
+}
+
+void try_start_foreground_process(char name)
+{
         struct Program *prog = lookup_program(name);
         if (name != prog->name)
         {
             puts("No program `");
             putc(name);
             puts("` registered\n");
-            continue;
+        return;
         }
 
         struct Process *proc = init_process(prog);
@@ -98,9 +107,14 @@ void shell()
             puts("Failed to start `");
             putc(name);
             puts("`\n");
-            continue;
+        return;
         }
 
+    run_foreground_process(proc);
+}
+
+void run_foreground_process(struct Process *proc)
+{
         while (proc->status == Ready)
         {
             if (peekc() == SIGKILL)
@@ -112,7 +126,6 @@ void shell()
             {
                 getc();
                 proc->status = Stopped;
-            }
         }
     }
 }
