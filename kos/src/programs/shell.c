@@ -3,6 +3,9 @@
 #include "../timer.h"
 #include "programs.h"
 
+const char SIGSTOP = '\032';
+const char SIGKILL = '\003';
+
 void _usage()
 {
     puts("Programs:\n");
@@ -16,7 +19,9 @@ void _usage()
     puts("    ?: show this help\n");
     puts("    @: list stopped processes\n");
     puts("    ^: restart all stopped processes in background\n");
-    puts("    !: stop all processes. This can be used to stop a\n\t foreground or at prompt to stop any background processes.\n");
+    puts("    !: stop all background processes.\n");
+    puts("  C-Z: stop foreground process\n");
+    puts("  C-C: kill foreground process\n");
 }
 
 void print_stopped_processes()
@@ -42,11 +47,17 @@ void shell()
     while (1)
     {
         puts("\nkos> ");
-
-        char name;
-        while ((name = getc()) == '\n')
-            ;
+        char name = getc();
         putc('\n');
+
+        if (name == '\n')
+            continue;
+
+        if (name == SIGSTOP)
+            continue;
+
+        if (name == SIGKILL)
+            continue;
 
         if (name == '?')
         {
@@ -90,13 +101,18 @@ void shell()
             continue;
         }
 
-        while (proc->status == Ready && peekc() != '!')
-            ;
-
-        if (peekc() == '!')
+        while (proc->status == Ready)
         {
-            getc();
-            stop_all_processes_except(current_process);
+            if (peekc() == SIGKILL)
+            {
+                getc();
+                proc->status = Dead;
+            }
+            else if (peekc() == SIGSTOP)
+            {
+                getc();
+                proc->status = Stopped;
+            }
         }
     }
 }
