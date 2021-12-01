@@ -27,6 +27,10 @@ struct Process *init_process(struct Program *program)
 
     proc->program = program;
     proc->sp = &(proc->stack[PROC_STACK_SIZE - 1]);
+
+    const unsigned int ALIGNMENT = 16;
+    proc->sp -= ALIGNMENT - ((size_t)proc->sp % ALIGNMENT);
+
     *(proc->sp--) = (size_t)program->function;
 
     for (size_t i = 28; i > 0; i--)
