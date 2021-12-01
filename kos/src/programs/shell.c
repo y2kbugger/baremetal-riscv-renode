@@ -6,8 +6,44 @@
 #define SIGSTOP '\032'
 #define SIGKILL '\003'
 
+void _usage();
+void start_stopped_processes();
+void print_stopped_processes();
 void try_start_foreground_process(char name);
 void run_foreground_process(struct Process *proc);
+
+void shell()
+{
+    putc('\n');
+    while (1)
+    {
+        puts("kos> ");
+        char name = getc();
+        putc('\n');
+
+        switch (name)
+        {
+        case '\n':
+        case SIGSTOP:
+        case SIGKILL:
+            break;
+        case '?':
+            _usage();
+            break;
+        case '@':
+            print_stopped_processes();
+            break;
+        case '^':
+            start_stopped_processes();
+            break;
+        case '!':
+            stop_all_processes_except(current_process);
+            break;
+        default:
+            try_start_foreground_process(name);
+        }
+    }
+}
 
 void _usage()
 {
@@ -43,39 +79,6 @@ void start_stopped_processes()
     struct Process *proc = lookup_process(0);
     while ((proc = next_process_of_status(proc, Stopped, false)) != NULL)
         proc->status = Ready;
-}
-
-void shell()
-{
-    putc('\n');
-    while (1)
-    {
-        puts("kos> ");
-        char name = getc();
-        putc('\n');
-
-        switch (name)
-        {
-        case '\n':
-        case SIGSTOP:
-        case SIGKILL:
-            break;
-        case '?':
-            _usage();
-            break;
-        case '@':
-            print_stopped_processes();
-            break;
-        case '^':
-            start_stopped_processes();
-            break;
-        case '!':
-            stop_all_processes_except(current_process);
-            break;
-        default:
-            try_start_foreground_process(name);
-        }
-    }
 }
 
 void try_start_foreground_process(char name)
