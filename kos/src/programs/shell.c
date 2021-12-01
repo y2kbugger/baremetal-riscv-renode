@@ -16,7 +16,7 @@ void _usage()
     puts("    ?: show this help\n");
     puts("    @: list stopped processes\n");
     puts("    ^: restart all stopped processes in background\n");
-    puts("    !: stop all processes. This can be used while program\n\tis running in foreground or at prompt to kill any background processes.\n");
+    puts("    !: stop all processes. This can be used to stop a\n\t foreground or at prompt to stop any background processes.\n");
 }
 
 void print_stopped_processes()
