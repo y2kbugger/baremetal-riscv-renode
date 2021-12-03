@@ -72,14 +72,14 @@ void handle_interrupt()
         if (mcause_code == 11)
         {
             // ecall
-            if (current_process != NULL)
-            {
-                size_t *mepc = current_process->sp + 29;
-                *mepc += 4;
+            if (current_process == NULL)
+                return;
 
-                register unsigned long syscall_no asm("a7");
-                putc(syscall_no + (int)'0');
-            }
+            size_t *mepc = current_process->sp + 29;
+            *mepc += 4;
+
+            register unsigned long syscall_no asm("a7");
+            putc(syscall_no + (int)'0');
         }
     }
 }
