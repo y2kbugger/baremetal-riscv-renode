@@ -10,11 +10,11 @@ sysbus.cpu SetMachineIrqMask 0xFFFFFFFF
 
 sysbus LoadELF @image
 
-machine StartGdbServer 3333
+machine StartGdbServer 3335
 
 start
 
 emulation SetPerformance 0.001
 
-emulation CreateServerSocketTerminal 1234 "externalUART" true
+emulation CreateServerSocketTerminal 1235 "externalUART" false
 connector Connect uart externalUART

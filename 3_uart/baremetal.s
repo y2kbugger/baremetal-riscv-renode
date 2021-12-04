@@ -1,10 +1,4 @@
-.equ UART_BASE, 0x60001800
-.equ RxTx, 0x0
-.equ TxFull, 0x04
-.equ RxEmpty, 0x08
-.equ EventStatus, 0x0c
-.equ EventPending, 0x10
-.equ EventEnable, 0x14
+.equ memtop, 0x00040000
 
 .section .text
 .global _start      # Provide program starting address to linker
@@ -17,15 +11,11 @@ _start:
         csrw   mtvec, t0
 
         # setup a stack pointer
-        la sp, _stack
+        la sp, memtop
 
         # set mstatus.MIE=1 (enable M mode interrupts in general)
         li      t0, 0b0000000000001000
         csrrs   zero, mstatus, t0
-
-        # set mie.MTIE=1 (enable M mode timer interrupts)
-        li      t0, 0b0000000010000000
-        csrrs   zero, mie, t0
 
         # set mie.MEIE=1 (enable M mode external interrupts)
         li      t0, 0b0000100000000000
@@ -40,5 +30,3 @@ wait_for_interrupt:
 .align 4
 mtvec_interrupt_handler:
         j interrupt_handler
-
-.common _stack, 20000, 0

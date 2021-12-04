@@ -9,6 +9,7 @@ typedef struct
     uint32_t EventPending;
     uint32_t EventEnable;
 } UART;
+
 const uint32_t TxEvent = 0b01;
 const uint32_t RxEvent = 0b10;
 volatile UART *const uart = (UART *)0x60001800;
@@ -42,7 +43,7 @@ void puts(char *str)
 
 void fancy_char(char c)
 {
-    char s[] = "###\n\r#X#\n\r###\n\r\n\r";
-    s[6] = c;
+    char s[] = "\n###\n\r#X#\n\r###\n\r\n\r";
+    s[7] = c;
     puts(s);
 }

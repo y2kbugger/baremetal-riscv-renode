@@ -8,8 +8,14 @@ image: baremetal.s baremetal.c
 launch: image
 	renode vexriscv.resc --console
 
+start: image
+	renode -e "include @vexriscv.resc" -e "start" --console
+
 uart:
-	telnet localhost 1234
+	stty -icanon && netcat localhost 1235 && stty sane
+
+uart-poll:
+	@printf ...\\n; while true; do stty -icanon -isig; netcat localhost 1235 2>/dev/null && printf \\n...\\n; stty sane; sleep 1; done;
 
 debug:
 	riscv32-unknown-elf-gdb -x gdbrc
