@@ -17,7 +17,6 @@ void init_kernel()
     register_all_programs();
     current_process = init_process(lookup_program('s'));
     init_timer();
-    asm volatile("ecall");
 }
 
 void schedule_processes()
