@@ -3,7 +3,7 @@ $(error Toolchain not activated. Be sure to `source ../activate-toolchains.sh`)
 endif
 
 image: baremetal.s
-	riscv32-unknown-elf-gcc baremetal.s -ggdb -O0 -o image -ffreestanding -nostdlib
+	riscv32-unknown-elf-gcc baremetal.s -march=rv32imac -ggdb -O0 -o image -ffreestanding -nostdlib
 
 launch: image
 	renode vexriscv.resc
