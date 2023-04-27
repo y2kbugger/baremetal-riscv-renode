@@ -1,0 +1,6 @@
+{
+    "git.autoRepositoryDetection": false,
+    "git.ignoreLimitWarning": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+}
