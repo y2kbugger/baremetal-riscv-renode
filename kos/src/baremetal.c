@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include <unistd.h>
+#include <stddef.h>
 
 #include "baremetal.h"
 #include "freedom_e.h"
