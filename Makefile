@@ -15,15 +15,26 @@ $(GNUTC): riscv-gnu-toolchain/.git
 $(RENODETC): renode/.git
 	cd renode && ./build.sh
 
-renode/.git riscv-gnu-toolchain/.git:
-	git submodule update --init --recursive
+renode/.git:
+	git submodule update --init --recursive renode
 
-clean:
-	cd riscv-gnu-toolchain && $(MAKE) clean
-	rm -rf riscv-gnu-toolchain-output
+riscv-gnu-toolchain/.git:
+	git submodule update --init --recursive riscv-gnu-toolchain
+
+clean: clean-gcc clean-renode
+
+clean-deep: clean-gcc-deep clean-renode-deep
+
+clean-renode:
 	cd renode && ./build.sh -c
 
-clean-deep: clean
+clean-renode-deep:
+	rm -rf renode
+
+clean-gcc:
+	cd riscv-gnu-toolchain && $(MAKE) clean
+	rm -rf riscv-gnu-toolchain-output
+
+clean-gcc-deep:
 	rm -rf riscv-gnu-toolchain-output
 	rm -rf riscv-gnu-toolchain
-	rm -rf renode
