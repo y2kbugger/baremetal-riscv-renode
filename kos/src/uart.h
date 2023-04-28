@@ -1,7 +1,7 @@
 void init_uart();
 
 char getc();
-char peekc();
+int peekc();
 
 void putc(char c);
 void puts(char *s);
