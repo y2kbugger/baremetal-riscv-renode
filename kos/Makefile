@@ -6,10 +6,10 @@ image: src/*.s src/*.c src/**/*.c
 	riscv32-unknown-elf-gcc $^ -march=rv32i_zicsr -Wall -ggdb -O0 -o image -ffreestanding -nostdlib -lgcc
 
 launch: image
-	renode vexriscv.resc --console
+	renode --net vexriscv.resc --console
 
 start: image
-	renode -e "include @vexriscv.resc" -e "start" --console
+	renode --net -e "include @vexriscv.resc" -e "start" --console
 
 uart:
 	stty -icanon && netcat localhost 1234 && stty sane

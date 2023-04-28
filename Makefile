@@ -13,7 +13,7 @@ $(GNUTC): riscv-gnu-toolchain/.git
 	cd riscv-gnu-toolchain && $(MAKE) -j4
 
 $(RENODETC): renode/.git
-	cd renode && ./build.sh
+	cd renode && ./build.sh --net
 
 renode/.git:
 	git submodule update --init --recursive renode
