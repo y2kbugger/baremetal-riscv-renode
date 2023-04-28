@@ -14,6 +14,8 @@ void run_foreground_process(struct Process *proc);
 
 void shell()
 {
+    puts("Welcome to the KOS shell!\n");
+    puts("Type ? for usage info.\n");
     putc('\n');
     while (1)
     {
