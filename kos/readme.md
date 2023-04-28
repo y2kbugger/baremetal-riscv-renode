@@ -1,4 +1,6 @@
 I want:
+- move renode build to net6.0
+- Add a developer section to the readme
 - to not have to manually put end this function in program definition.
 - all Process mutating functions to happen via kernel call so that race conditions are rendered impossible. e.g. stop all running processes is current called straight from the shell.
 - programs to be able to request sleep
