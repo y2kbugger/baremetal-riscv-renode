@@ -1,9 +1,8 @@
 # Active
-- Add a developer section to the readme
+- to handle escape sequences in the shell
 
 # Backlog
 I want:
-- to handle escape sequences in the shell
 - slow down count forever and laugh forever
 - to not have to manually put end this function in program definition.
 - all Process mutating functions to happen via kernel call so that race conditions are rendered impossible. e.g. stop all running processes is current called straight from the shell.
@@ -25,5 +24,5 @@ I want:
     - write driver for matmul
 - Run everything on a real FPGA
 
-Bugs:
+# Bugs
 -
