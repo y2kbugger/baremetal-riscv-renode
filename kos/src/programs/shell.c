@@ -2,15 +2,52 @@
 #include "../uart.h"
 #include "../timer.h"
 #include "programs.h"
+#include <string.h>
 
 #define SIGSTOP '\032'
 #define SIGKILL '\003'
+#define SIGSTOP_CMD ((const char[]){SIGSTOP, '\0'})
+#define SIGKILL_CMD ((const char[]){SIGKILL, '\0'})
 
 void _usage();
 void start_stopped_processes();
 void print_stopped_processes();
 void try_start_foreground_process(char name);
 void run_foreground_process(struct Process *proc);
+void stop_all_processes_except_current();
+
+struct command_entry
+{
+    const char *command;
+    void (*function)(void);
+};
+
+struct command_entry command_table[] = {
+    {"/n", NULL},
+    {SIGSTOP_CMD, NULL},
+    {SIGKILL_CMD, NULL},
+    {"?", _usage},
+    {"@", print_stopped_processes},
+    {"^", start_stopped_processes},
+    {"!", stop_all_processes_except_current},
+    {NULL, NULL} // Marks the end of the array
+};
+
+static void execute_command(const char *command)
+{
+    for (int i = 0; command_table[i].command != NULL; i++)
+    {
+        if (strcmp(command, command_table[i].command) == 0)
+        {
+            if (command_table[i].function != NULL)
+                command_table[i].function();
+            return;
+        }
+    }
+
+    // If no matching command is found, try to start a foreground process
+    try_start_foreground_process(command[0]);
+}
 
 void shell()
 {
@@ -20,30 +57,12 @@ void shell()
     while (1)
     {
         puts("kos> ");
-        char name = getc();
+        // just single char commands for now
+        char *command = "x";
+        command[0] = getc();
         putc('\n');
 
-        switch (name)
-        {
-        case '\n':
-        case SIGSTOP:
-        case SIGKILL:
-            break;
-        case '?':
-            _usage();
-            break;
-        case '@':
-            print_stopped_processes();
-            break;
-        case '^':
-            start_stopped_processes();
-            break;
-        case '!':
-            stop_all_processes_except(current_process);
-            break;
-        default:
-            try_start_foreground_process(name);
-        }
+        execute_command(command);
     }
 }
 
@@ -121,4 +140,9 @@ void run_foreground_process(struct Process *proc)
             proc->status = Stopped;
         }
     }
+}
+
+void stop_all_processes_except_current()
+{
+    stop_all_processes_except(current_process);
 }
