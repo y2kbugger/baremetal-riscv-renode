@@ -1,6 +1,8 @@
 # Development
 https://blog.y2kbugger.com/baremetal-riscv-renode-1.html
 
+After building toolschains, open VSCode to a subfolder project
+
 ## Toolchains
 Toolchain submodules will not auto-update. You must manually checkout an updated version and rebuild the toolchain.
 
