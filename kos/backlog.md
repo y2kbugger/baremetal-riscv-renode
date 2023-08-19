@@ -12,6 +12,8 @@ I want:
 - to be able to recycle process objects
 - dynamic memory allocation so that stack size and process count are not fixed at compile time.
   - this automatically handles the recycling of process objects
+- shells should forward input to programs
+    - right now, all programs can grab user input based the race of who gets to read the UART during multi-tasking
 - to design Simple FPGA-able matrix-multiply accelerator
     - verilate the matmul, attach to renode
     - write driver for matmul
