@@ -1,13 +1,16 @@
+#include <string.h>
+
 #include "../baremetal.h"
 #include "../uart.h"
 #include "../timer.h"
 #include "programs.h"
-#include <string.h>
 
-#define SIGSTOP '\032'
 #define SIGKILL '\003'
-#define SIGSTOP_CMD ((const char[]){SIGSTOP, '\0'})
-#define SIGKILL_CMD ((const char[]){SIGKILL, '\0'})
+#define SIGSTOP '\032'
+#define ESCAPE '\033'
+#define BACKSP '\010'
+// #define SIGSTOP_CMD ((const char[]){SIGSTOP, '\0'})
+// #define SIGKILL_CMD ((const char[]){SIGKILL, '\0'})
 
 void _usage();
 void start_stopped_processes();
@@ -15,6 +18,8 @@ void print_stopped_processes();
 void try_start_foreground_process(char name);
 void run_foreground_process(struct Process *proc);
 void stop_all_processes_except_current();
+char *read_command();
+void yell();
 
 struct command_entry
 {
@@ -23,13 +28,11 @@ struct command_entry
 };
 
 struct command_entry command_table[] = {
-    {"/n", NULL},
-    {SIGSTOP_CMD, NULL},
-    {SIGKILL_CMD, NULL},
     {"?", _usage},
     {"@", print_stopped_processes},
     {"^", start_stopped_processes},
     {"!", stop_all_processes_except_current},
+    {"yell", yell},
     {NULL, NULL} // Marks the end of the array
 };
 
@@ -56,13 +59,8 @@ void shell()
     putc('\n');
     while (1)
     {
-        puts("kos> ");
-        // just single char commands for now
-        char *command = "x";
-        command[0] = getc();
-        putc('\n');
-
-        execute_command(command);
+        char *cmd = read_command();
+        execute_command(cmd);
     }
 }
 
@@ -145,4 +143,85 @@ void run_foreground_process(struct Process *proc)
 void stop_all_processes_except_current()
 {
     stop_all_processes_except(current_process);
+}
+enum KEY_TYPE
+{
+    NORMAL,
+    ESCAPE_SEQUENCE,
+    CONTROL,
+    UNKNOWN,
+};
+
+struct key_sequence
+{
+    char value;
+    enum KEY_TYPE type;
+};
+
+#define SIGKILL '\003'
+#define SIGSTOP '\032'
+#define KEY_ESC '\033' // escape
+#define KEY_BS '\010'  // backspace
+#define KEY_BEL '\007' // bell
+struct key_sequence read_key_sequence()
+{
+    struct key_sequence key = {getc(), NORMAL};
+    switch (key.value)
+    {
+    case SIGKILL:
+    case SIGSTOP:
+    case BACKSP:
+    case '\n':
+    case '\r':
+    case '\t':
+        key.type = CONTROL;
+        break;
+    }
+    return key;
+}
+
+char command_buffer[1024];
+char *command = command_buffer;
+char *read_command()
+{
+    char *command_end = command;
+    puts("kos> ");
+
+    while (command_end == command)
+        while (1)
+        {
+            char c = getc();
+            if (c == '\n')
+                break;
+            if (c == SIGSTOP)
+                continue;
+            if (c == SIGKILL)
+                continue;
+            if (c == ESCAPE)
+            {
+                getc();
+                getc();
+                getc();
+                *command_end++ = 'x';
+                *command_end++ = 'x';
+                *command_end++ = 'x';
+                putc('x');
+                putc('x');
+                putc('x');
+                continue;
+            }
+
+            putc(c);
+            *command_end++ = c;
+        }
+
+    putc('\n');
+
+    *command_end = '\0';
+    return command;
+}
+
+void yell()
+{
+    puts("YELL!\n");
 }

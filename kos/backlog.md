@@ -1,6 +1,9 @@
 # Active
 - shell to handle line editing so multi-character commands will be possible
+    - currently the yell function is a hardcoded example, but we still fall back to single letter programs. Need to integrate the multi-character names into the process struct and then remove the yell example.
 - to handle escape sequences in the shell
+    - currently escape sequences are bugged and sometimes print garbage when hitting up arrow.
+- to handle backspace in the shell
 
 # Backlog
 I want:
