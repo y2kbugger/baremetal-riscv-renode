@@ -6,3 +6,6 @@
 	path = riscv-gnu-toolchain
 	url = https://github.com/riscv/riscv-gnu-toolchain
 	ignore = dirty
+[submodule "renode-verilator-integration"]
+	path = renode-verilator-integration
+	url = git@github.com:antmicro/renode-verilator-integration.git
