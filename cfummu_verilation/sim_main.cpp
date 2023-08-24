@@ -73,9 +73,3 @@ RenodeAgent *Init()
 
     return cfu;
 }
-
-int main(int argc, char **argv)
-{
-    Init();
-    // cfu->simulate(atoi(argv[1]), atoi(argv[2]));
-}
