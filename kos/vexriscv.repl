@@ -8,3 +8,6 @@ timer: Timers.PeriodicInterruptTimer @ sysbus <0x60002800, +0x1000>
 
 uart: UART.LiteX_UART @ sysbus 0x60001800
     -> cpu@2
+
+cfummu: Verilated.CFUVerilatedPeripheral @ cpu 0
+

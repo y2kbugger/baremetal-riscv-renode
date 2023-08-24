@@ -8,6 +8,8 @@ mach create $name
 machine LoadPlatformDescription @vexriscv.repl
 sysbus.cpu SetMachineIrqMask 0xFFFFFFFF
 
+sysbus.cpu.cfummu SimulationFilePath "../cfummu_verilation/build/libVtop.so"
+
 sysbus LoadELF @image
 
 machine StartGdbServer 3333
