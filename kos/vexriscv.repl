@@ -9,5 +9,7 @@ timer: Timers.PeriodicInterruptTimer @ sysbus <0x60002800, +0x1000>
 uart: UART.LiteX_UART @ sysbus 0x60001800
     -> cpu@2
 
-cfummu: Verilated.BaseDoubleWordVerilatedPeripheral @ sysbus <0x60003800, +0x1000>
+verilation: Verilated.VerilatedPeripheral @ sysbus <0x60003800, +0x1000>
+    frequency: 100000000
+    maxWidth: 32
 

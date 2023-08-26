@@ -8,7 +8,7 @@ mach create $name
 machine LoadPlatformDescription @vexriscv.repl
 sysbus.cpu SetMachineIrqMask 0xFFFFFFFF
 
-sysbus.cpu.cfummu SimulationFilePath "../verilation/build/libVtop.so"
+sysbus.verilation SimulationFilePath "../verilation/build/libVtop.so"
 
 sysbus LoadELF @image
 
