@@ -41,6 +41,7 @@ void ver_write()
 {
     uint32_t n = read_hex_double_word();
     verilation_write(n);
+    puts("Wrote hex to verilated reg\n");
     end_this_process();
 }
 void ver_read()
