@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 #define EMPTY_BUFFER -2
 
 typedef struct
@@ -59,5 +60,37 @@ int peekc()
     {
         _buffer = uart->RxTx;
         return _buffer;
+    }
+}
+
+void print_hex(uint32_t value)
+{
+    // Define hex characters
+    const char hex_chars[] = "0123456789ABCDEF";
+
+    // Print "0x" prefix
+    putc('0');
+    putc('x');
+
+    int shift;
+    bool leading_zero = true;
+
+    // Process each 4-bit chunk (nibble)
+    for (shift = 28; shift >= 0; shift -= 4)
+    {
+        char hex_char = hex_chars[(value >> shift) & 0xF];
+
+        // Skip leading zeros
+        if (hex_char == '0' && leading_zero && shift != 0)
+        {
+            continue;
+        }
+
+        if (hex_char != '0')
+        {
+            leading_zero = false;
+        }
+
+        putc(hex_char);
     }
 }

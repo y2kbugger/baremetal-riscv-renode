@@ -34,7 +34,6 @@ void eval()
     tfp->dump(main_time);
 #endif
     top->eval();
-    // kos->eval();
 }
 
 RenodeAgent *Init()
@@ -42,16 +41,16 @@ RenodeAgent *Init()
     Wishbone *bus = new Wishbone();
 
     // Init bus signals
-    bus->wb_clk = &top->clk100;
-    bus->wb_rst = &top->rst0;
-    bus->wb_addr = (uint64_t *)&top->wb_adr;
-    bus->wb_rd_dat = (uint64_t *)&top->wb_dat_r;
-    bus->wb_wr_dat = (uint64_t *)&top->wb_dat_w;
-    bus->wb_we = &top->wb_we;
+    bus->wb_clk = &top->clk;
+    bus->wb_rst = &top->rst;
+    bus->wb_addr = (uint64_t *)&top->adr;
+    bus->wb_rd_dat = (uint64_t *)&top->dat_miso;
+    bus->wb_wr_dat = (uint64_t *)&top->dat_mosi;
+    bus->wb_we = &top->we;
     bus->wb_sel = &top->wb_sel;
-    bus->wb_stb = &top->wb_stb;
-    bus->wb_ack = &top->wb_ack;
-    bus->wb_cyc = &top->wb_cyc;
+    bus->wb_stb = &top->stb;
+    bus->wb_ack = &top->ack;
+    bus->wb_cyc = &top->cyc;
 
     // Init eval function
     bus->evaluateModel = &eval;
