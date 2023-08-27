@@ -30,6 +30,11 @@ I want:
     - so that I can make a filesystem
     - so that I can write another driver and learn mass storage
 - to know if a Process has blown stack
+- explore this update to renode: "GDB autostart parameter now starts the simulation as soon as the debugger is connected" and "GDB interacts with Renode much faster"
+- explore this update to renode: "handling of c.ebreak instruction in RISC-V, allowing for software breakpoints"
+- does this cause problems? "VerilatorIntegrationLibrary is now part of Renode packages"
+- explore update "support for NMI interrupts in RISC-V"
+- explore riscv vector instructions
 
 # Bugs
 -
