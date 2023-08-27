@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 void init_uart();
 
 char getc();
