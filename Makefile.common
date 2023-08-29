@@ -8,10 +8,10 @@ help:	## Show this help.
 image:	src/*.s src/*.c src/**/*.c	## Build the image
 	riscv32-unknown-elf-gcc $^ -march=rv32i_zicsr -Wall -ggdb -O0 -o image -ffreestanding -nostdlib -lc_nano -lgcc
 
-launch:	## Image Launch the image in renode
+launch: image ## Image Launch the image in renode
 	renode --net vexriscv.resc --console
 
-start: image	## Launch the image in renode and start the simulation
+start: image ## Launch the image in renode and start the simulation
 	renode --net -e "include @vexriscv.resc" -e "start" --console
 
 uart:	## Attach to the simulation uart
