@@ -89,7 +89,7 @@ int peekc()
     return retval;
 }
 
-void print_hex(uint32_t value)
+void print_hex(uint32_t value, int bit_width)
 {
     // Define hex characters
     const char hex_chars[] = "0123456789ABCDEF";
@@ -102,15 +102,9 @@ void print_hex(uint32_t value)
     bool leading_zero = true;
 
     // Process each 4-bit chunk (nibble)
-    for (shift = 28; shift >= 0; shift -= 4)
+    for (shift = bit_width - 4; shift >= 0; shift -= 4)
     {
         char hex_char = hex_chars[(value >> shift) & 0xF];
-
-        // Skip leading zeros
-        if (hex_char == '0' && leading_zero && shift != 0)
-        {
-            continue;
-        }
 
         if (hex_char != '0')
         {
@@ -119,4 +113,39 @@ void print_hex(uint32_t value)
 
         putc(hex_char);
     }
+}
+
+uint32_t read_hex_double_word()
+{
+    puts("Enter a 32-bit hex number: 0x");
+    uint32_t value = 0;
+    int count = 0;
+    while (count < 8)
+    { // A 32-bit hex number is up to 8 characters long
+        int ch = getc();
+
+        // Convert hex char to integer
+        if (ch >= '0' && ch <= '9')
+        {
+            value = (value << 4) | (ch - '0');
+        }
+        else if (ch >= 'a' && ch <= 'f')
+        {
+            value = (value << 4) | (ch - 'a' + 10);
+        }
+        else if (ch >= 'A' && ch <= 'F')
+        {
+            value = (value << 4) | (ch - 'A' + 10);
+        }
+        else
+        {
+            puts("Invalid character encountered.");
+            return 0; // Or any other error handling mechanism
+        }
+        putc(ch);
+
+        count++;
+    }
+    putc('\n');
+    return value;
 }
