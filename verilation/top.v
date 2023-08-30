@@ -21,13 +21,14 @@ parameter INT_WIDTH = 8; // Size for matrices A, B, and C
 // inputs
 reg [71:0] A, B;
 reg Enable;
+reg reset_matrix;
 // outputs
 wire [71:0] C;
 wire done;
 
 matrix_mult mm_inst(
     .Clock(clk),
-    .reset(rst),
+    .reset(reset_matrix),
     .Enable(Enable),
     .A(A),
     .B(B),
@@ -40,14 +41,17 @@ always @(posedge clk or posedge rst) begin
         dat_miso <= 32'b0;
         ack <= 0;
         err <= 0;
+        reset_matrix <= 1;
         Enable <= 0;
         A <= 72'b0;
         B <= 72'b0;
     end else if (cyc && stb) begin
         ack <= 0;
         err <= 0;
+        reset_matrix <= 0;
 
         if (we && wb_sel[0]) begin
+            reset_matrix <= 1;
             // Write to A or B
             if (adr < A_OFFSET+MAT_SIZE) begin
                 A[((adr-A_OFFSET)*INT_WIDTH)+:INT_WIDTH] <= dat_mosi[7:0];
