@@ -51,6 +51,8 @@ RenodeAgent *Init()
     bus->wb_stb = &top->stb;
     bus->wb_ack = &top->ack;
     bus->wb_cyc = &top->cyc;
+    bus->granularity = 1;
+    bus->addr_lines = 32;
 
     // Init eval function
     bus->evaluateModel = &eval;

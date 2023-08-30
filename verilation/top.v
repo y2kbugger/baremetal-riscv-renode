@@ -23,7 +23,7 @@ module top(
             if (we) begin
                 my_register <= dat_mosi;
             end
-            dat_miso <= my_register;
+            dat_miso <= adr;
         end
     end
 

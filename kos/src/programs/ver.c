@@ -51,3 +51,17 @@ void ver_read()
     putc('\n');
     end_this_process();
 }
+void ver_write2()
+{
+    uint32_t n = read_hex_double_word();
+    verilation_write2(n);
+    puts("Wrote hex to verilated reg\n");
+    end_this_process();
+}
+void ver_read2()
+{
+    uint32_t n = verilation_read2();
+    print_hex(n);
+    putc('\n');
+    end_this_process();
+}
