@@ -57,6 +57,8 @@ RenodeAgent *Init()
     // Init eval function
     bus->evaluateModel = &eval;
 
+    bus->reset();
+
     // Init peripheral
     kos = new RenodeAgent(bus);
     return kos;
