@@ -66,7 +66,7 @@ always @(posedge clk or posedge rst) begin
                 // done lets us know when the calculation is done
                 if (done) begin
                     // Calculation is done, read from C
-                    dat_miso <= {C[(adr-C_OFFSET)*INT_WIDTH+:INT_WIDTH], 24'b0};
+                    dat_miso[7:0] <= C[(adr-C_OFFSET)*INT_WIDTH+:INT_WIDTH];
                     ack <= 1;
                     // Clear the enable after reading is done
                     Enable <= 0;
