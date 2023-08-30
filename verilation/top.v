@@ -12,23 +12,73 @@ module top(
     output err             // Error from slave
 );
 
-    // Declare the register
-    reg [31:0] my_register;
+parameter A_OFFSET = 0;    // Start address for matrix A
+parameter B_OFFSET = 9;    // Start address for matrix B
+parameter C_OFFSET = 18;   // Start address for matrix C
+parameter MAT_SIZE = 9;    // Size for matrices A, B, and C
+parameter INT_WIDTH = 8; // Size for matrices A, B, and C
 
-    always @(posedge clk or posedge rst) begin
-        if (rst) begin
-            my_register <= 32'b0;
-            dat_miso <= 32'b0;
-        end else if (cyc && stb) begin
-            if (we) begin
-                my_register <= dat_mosi;
+// inputs
+reg [71:0] A, B;
+reg Enable;
+// outputs
+wire [71:0] C;
+wire done;
+
+matrix_mult mm_inst(
+    .Clock(clk),
+    .reset(rst),
+    .Enable(Enable),
+    .A(A),
+    .B(B),
+    .C(C),
+    .done(done)
+);
+
+always @(posedge clk or posedge rst) begin
+    if (rst) begin
+        dat_miso <= 32'b0;
+        ack <= 0;
+        err <= 0;
+        Enable <= 0;
+        A <= 72'b0;
+        B <= 72'b0;
+    end else if (cyc && stb) begin
+        ack <= 0;
+        err <= 0;
+
+        if (we && wb_sel[0]) begin
+            // Write to A or B
+            if (adr < A_OFFSET+MAT_SIZE) begin
+                A[((adr-A_OFFSET)*INT_WIDTH)+:INT_WIDTH] <= dat_mosi[7:0];
+                ack <= 1;
+            end else if (adr >=B_OFFSET && adr < B_OFFSET+MAT_SIZE) begin
+                B[((adr-B_OFFSET)*INT_WIDTH)+:INT_WIDTH] <= dat_mosi[7:0];
+                ack <= 1;
+            end else begin
+                err <= 1;
             end
-            dat_miso <= adr;
+        end else if (!we) begin
+            // Asking to read from C
+            if (adr >= C_OFFSET && adr < C_OFFSET+MAT_SIZE) begin
+                // Start the calculation
+                Enable <= 1;
+                // done lets us know when the calculation is done
+                if (done) begin
+                    // Calculation is done, read from C
+                    dat_miso <= {C[(adr-C_OFFSET)*INT_WIDTH+:INT_WIDTH], 24'b0};
+                    ack <= 1;
+                    // Clear the enable after reading is done
+                    Enable <= 0;
+                end
+            end else begin
+                err <= 1;
+            end
         end
+    end else begin
+        ack <= 0;
+        err <= 0;
     end
-
-    // For simplicity, we'll just always acknowledge and never error.
-    assign ack = cyc && stb;
-    assign err = 1'b0;
+end
 
 endmodule
