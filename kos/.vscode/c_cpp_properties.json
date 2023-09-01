@@ -1,0 +1,35 @@
+{
+    "configurations": [
+        {
+            "name": "riscv",
+            "includePath": [
+                "/home/y2k/devel/baremetal-riscv-renode/**"
+            ],
+            "defines": [],
+            "compilerPath": "/home/y2k/devel/baremetal-riscv-renode/riscv-gnu-toolchain-output/bin/riscv32-unknown-elf-gcc",
+            "cStandard": "c17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "linux-gcc-riscv",
+            "compilerPathInCppPropertiesJson": "/usr/bin/gcc",
+            "mergeConfigurations": false,
+            "browse": {
+                "path": [
+                    "/home/y2k/devel/baremetal-riscv-renode/**",
+                    "${workspaceFolder}"
+                ],
+                "limitSymbolsToIncludedHeaders": true
+            },
+            "compilerArgs": [
+                "-march=rv32i_zicsr",
+                "-Wall",
+                "-ggdb",
+                "-O0",
+                "-ffreestanding",
+                "-nostdlib",
+                "-lc_nano",
+                "-lgcc"
+            ]
+        }
+    ],
+    "version": 4
+}
