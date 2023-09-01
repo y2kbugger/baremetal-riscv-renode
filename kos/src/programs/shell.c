@@ -72,8 +72,7 @@ void _usage()
     puts("    l: laugh\n");
     puts("    f: laugh forever\n");
     puts("    c: count forever\n");
-    puts("    v: verilate write\n");
-    puts("    b: verilate read\n");
+    puts("    v: verilator matrix multiply\n");
 
     puts("Shell commands:\n");
     puts("    ?: show this help\n");
