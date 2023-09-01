@@ -1,4 +1,4 @@
-.equ memtop, 0x00040000
+.equ memtop, 0x00050000
 .equ XLEN, 4 # 32 bit, 4*8
 
 .section .text

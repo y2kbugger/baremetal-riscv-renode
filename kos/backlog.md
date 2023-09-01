@@ -38,3 +38,15 @@ I want:
 
 # Bugs
 -
+
+# Memory map
+
+0x00000
+  ...   unused
+0x10000            RAM BOTTOM
+0x10094 _start
+  ...   system image
+0x18000 _end
+  ...   heap - grows down (if implemented)
+  ...   stack - grows up
+0x50000 memtopi    RAM TOP

@@ -1,4 +1,4 @@
-mem: Memory.MappedMemory @ sysbus 0x0
+mem: Memory.MappedMemory @ sysbus 0x10000
     size: 0x00040000
 
 cpu: CPU.VexRiscv @ sysbus
