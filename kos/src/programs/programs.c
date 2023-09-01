@@ -15,9 +15,7 @@ void register_all_programs()
     register_program('c', count_forever);
 
     register_program('v', ver_test);
-    // register_program('b', ver_read);
-    // register_program('z', ver_write2);
-    // register_program('x', ver_read2);
+    register_program('m', multiply_matrices);
 
     register_program('s', shell);
 }
