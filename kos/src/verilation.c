@@ -1,6 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
-#include "uart.h"
+#include <stdio.h>
 #include "hex.h"
 
 typedef struct
@@ -29,53 +29,48 @@ void hardware_matrix_multiply_3(uint8_t a[3][3], uint8_t b[3][3], uint8_t c[3][3
 
 void print_matrix(char label[], uint8_t matrix[3][3])
 {
-    putc('\n');
-    puts(label);
-    putc('\n');
+    printf("\n%s\n", label);
+
     for (int i = 0; i < 3; i++)
     {
-        puts("| ");
+        printf("| ");
         for (int j = 0; j < 3; j++)
         {
             print_hex(matrix[i][j], 1);
-            putc(' ');
+            putchar(' ');
         }
-        puts("|\n");
+        printf("|\n");
     }
 }
 
 void print_matrix_9(char label[], uint8_t matrix[9][9])
 {
-    putc('\n');
-    puts(label);
-    putc('\n');
+    printf("\n%s\n", label);
     for (int i = 0; i < 9; i++)
     {
-        puts("| ");
+        printf("| ");
         for (int j = 0; j < 9; j++)
         {
             print_hex(matrix[i][j], 1);
-            putc(' ');
+            putchar(' ');
         }
-        puts("|\n");
+        printf("|\n");
     }
 }
 
 void read_matrix(char label[], uint8_t matrix[3][3])
 {
-    puts("Input a 3x3 matrix of hex values for matrix ");
-    puts(label);
-    puts(":\n");
+    printf("Input a 3x3 matrix of hex values for matrix %s\n", label);
     for (int i = 0; i < 3; i++)
     {
-        puts("| ");
+        printf("| ");
         for (int j = 0; j < 3; j++)
         {
             int8_t value = (int8_t)read_hex(1);
             matrix[i][j] = value;
-            putc(' ');
+            putchar(' ');
         }
-        puts("|\n");
+        printf("|\n");
     }
 }
 
@@ -147,11 +142,11 @@ void check_matrix_multiply(uint8_t a[3][3], uint8_t b[3][3])
     if (is_correct)
     {
         // Matrix multiplication result is correct!
-        puts("Matrix multiplication result is correct!\n");
+        printf("Matrix multiplication result is correct!\n");
     }
     else
     {
-        puts("Matrix multiplication result is incorrect!\n");
+        printf("Matrix multiplication result is incorrect!\n");
     }
 }
 
@@ -214,10 +209,10 @@ void check_matrix_multiply_9(uint8_t a[9][9], uint8_t b[9][9])
 
     if (is_correct)
     {
-        puts("Matrix multiplication result is correct!\n");
+        printf("Matrix multiplication result is correct!\n");
     }
     else
     {
-        puts("Matrix multiplication result is incorrect!\n");
+        printf("Matrix multiplication result is incorrect!\n");
     }
 }

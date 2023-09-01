@@ -1,6 +1,5 @@
 #include "../baremetal.h"
 #include "../verilation.h"
-#include "../uart.h"
 
 void ver_test()
 {

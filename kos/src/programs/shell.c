@@ -1,4 +1,5 @@
 #include <string.h>
+#include <stdio.h>
 
 #include "../baremetal.h"
 #include "../uart.h"
@@ -54,9 +55,8 @@ static void execute_command(const char *command)
 
 void shell()
 {
-    puts("Welcome to the KOS shell!\n");
-    puts("Type ? for usage info.\n");
-    putc('\n');
+    printf("Welcome to the KOS shell!\n");
+    printf("Type ? for usage info.\n\n");
     while (1)
     {
         char *cmd = read_command();
@@ -66,22 +66,23 @@ void shell()
 
 void _usage()
 {
-    puts("Programs:\n");
-    puts("    h: hello world\n");
-    puts("    e: hello ecall world\n");
-    puts("    l: laugh\n");
-    puts("    f: laugh forever\n");
-    puts("    c: count forever\n");
-    puts("    v: verilator matrix multiply test\n");
-    puts("    m: multiply your matrices\n");
+    printf("Programs:\n");
+    printf("    h: hello world\n");
+    printf("    e: hello ecall world\n");
+    printf("    l: laugh\n");
+    printf("    f: laugh forever\n");
+    printf("    c: count forever\n");
+    printf("    v: verilator matrix multiply\n");
+    printf("    v: verilator matrix multiply test\n");
+    printf("    m: multiply your matrices\n");
 
-    puts("Shell commands:\n");
-    puts("    ?: show this help\n");
-    puts("    @: list stopped processes\n");
-    puts("    ^: restart all stopped processes in background\n");
-    puts("    !: stop all background processes.\n");
-    puts("  C-Z: stop foreground process\n");
-    puts("  C-C: kill foreground process\n");
+    printf("Shell commands:\n");
+    printf("    ?: show this help\n");
+    printf("    @: list stopped processes\n");
+    printf("    ^: restart all stopped processes in background\n");
+    printf("    !: stop all background processes.\n");
+    printf("  C-Z: stop foreground process\n");
+    printf("  C-C: kill foreground process\n");
 }
 
 void print_stopped_processes()
@@ -89,9 +90,7 @@ void print_stopped_processes()
     struct Process *proc = lookup_process(0);
     while ((proc = next_process_of_status(proc, Stopped, false)) != NULL)
     {
-        puts("  - ");
-        putc(proc->program->name);
-        putc('\n');
+        printf("  - %c\n", proc->program->name);
     }
 }
 
@@ -107,18 +106,14 @@ void try_start_foreground_process(char name)
     struct Program *prog = lookup_program(name);
     if (name != prog->name)
     {
-        puts("No program `");
-        putc(name);
-        puts("` registered\n");
+        printf("No program `%c` registered\n", name);
         return;
     }
 
     struct Process *proc = init_process(prog);
     if (NULL == proc)
     {
-        puts("Failed to start `");
-        putc(name);
-        puts("`\n");
+        printf("Failed to start `%c`\n", name);
         return;
     }
 
@@ -129,15 +124,21 @@ void run_foreground_process(struct Process *proc)
 {
     while (proc->status == Ready)
     {
-        if (peekc() == SIGKILL)
+        if (!uart_has_data())
+            continue;
+        int c = getchar();
+        if (c == SIGKILL)
         {
-            getc();
             proc->status = Dead;
         }
-        else if (peekc() == SIGSTOP)
+        else if (c == SIGSTOP)
         {
-            getc();
             proc->status = Stopped;
+        }
+        else
+        {
+            printf("Forwarding character: `%c` to program `%c`\n", c, proc->program->name);
+            ungetc(c, stdin);
         }
     }
 }
@@ -167,7 +168,7 @@ struct key_sequence
 #define KEY_BEL '\007' // bell
 struct key_sequence read_key_sequence()
 {
-    struct key_sequence key = {getc(), NORMAL};
+    struct key_sequence key = {getchar(), NORMAL};
     switch (key.value)
     {
     case SIGKILL:
@@ -187,12 +188,13 @@ char *command = command_buffer;
 char *read_command()
 {
     char *command_end = command;
-    puts("kos> ");
+    printf("kos> ");
+    fflush(stdout);
 
     while (command_end == command)
         while (1)
         {
-            char c = getc();
+            int c = getchar();
             if (c == '\n')
                 break;
             if (c == SIGSTOP)
@@ -201,23 +203,26 @@ char *read_command()
                 continue;
             if (c == ESCAPE)
             {
-                getc();
-                getc();
-                getc();
+                getchar();
+                getchar();
+                getchar();
                 *command_end++ = 'x';
                 *command_end++ = 'x';
                 *command_end++ = 'x';
-                putc('x');
-                putc('x');
-                putc('x');
+                putchar('x');
+                putchar('x');
+                putchar('x');
+                fflush(stdout);
                 continue;
             }
 
-            putc(c);
+            putchar(c);
+            fflush(stdout);
             *command_end++ = c;
         }
 
-    putc('\n');
+    putchar('\n');
+    fflush(stdout);
 
     *command_end = '\0';
     return command;
@@ -225,5 +230,5 @@ char *read_command()
 
 void yell()
 {
-    puts("YELL!\n");
+    printf("YELL!\n");
 }

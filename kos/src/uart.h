@@ -2,8 +2,6 @@
 
 void init_uart();
 
-char getc();
-int peekc();
+bool uart_has_data();
 
-void putc(char c);
-void puts(char *s);
+int _write(int fd, char *buf, int count); // for use in last ditch crash reporting

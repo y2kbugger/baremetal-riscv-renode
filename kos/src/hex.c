@@ -1,5 +1,5 @@
 #include <stdint.h>
-#include "uart.h"
+#include <stdio.h>
 
 void print_hex(uint32_t value, int bytes)
 {
@@ -10,7 +10,7 @@ void print_hex(uint32_t value, int bytes)
     for (int shift = bytes * 8 - 4; shift >= 0; shift -= 4)
     {
         char hex_char = hex_chars[(value >> shift) & 0xF];
-        putc(hex_char);
+        putchar(hex_char);
     }
 }
 
@@ -22,7 +22,7 @@ uint32_t read_hex(int bytes)
     int count = 0;
     while (count < bytes * 2)
     {
-        int ch = getc();
+        int ch = getchar();
 
         // Convert hex char to integer
         if (ch >= '0' && ch <= '9')
@@ -42,7 +42,7 @@ uint32_t read_hex(int bytes)
             // skip non-hex characters
             continue;
         }
-        putc(ch);
+        putchar(ch);
 
         count++;
     }

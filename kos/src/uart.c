@@ -1,9 +1,6 @@
 #include <stdint.h>
 #include <stdbool.h>
-
-#include "./mutex.h"
-
-#define EMPTY_BUFFER -2
+#include <stdio.h>
 
 typedef struct
 {
@@ -18,73 +15,44 @@ const uint32_t TxEvent = 0b01;
 const uint32_t RxEvent = 0b10;
 volatile UART *const uart = (UART *)0x60001800;
 
-struct Mutex _buffer_mutex;
 void init_uart()
 {
-    mutex_init(&_buffer_mutex);
     // uart->EventEnable = RxEvent;
 }
 
-void putc(char c)
+bool uart_has_data()
 {
-    while (uart->TxFull)
-        ; // Wait until UART is not full
-    uart->RxTx = c;
+    return !uart->RxEmpty;
 }
 
-void puts(char *s)
+int _write(int fd, char *buf, int count)
 {
-    while (*s != '\0')
-        putc(*s++);
+    int written = 0;
+
+    for (; count != 0; --count)
+    {
+        while (uart->TxFull)
+            ; // Wait until UART is not full
+        uart->RxTx = *buf++;
+        ++written;
+    }
+    return written;
 }
 
-volatile int _buffer = EMPTY_BUFFER;
-// Blocking fetch of single char
-char getc()
+int _read(int fd, char *buf, int count)
 {
-    char retval;
-    mutex_lock(&_buffer_mutex);
-    if (_buffer != EMPTY_BUFFER)
-    {
-        char val = _buffer;
-        _buffer = EMPTY_BUFFER;
-        retval = val;
-    }
-    else
-    {
-        while (uart->RxEmpty)
-            ;
-        retval = uart->RxTx;
-    }
-    mutex_unlock(&_buffer_mutex);
-    return retval;
-}
+    int read = 0;
 
-// Nonblocking peek of next character
-// If no character ready (buffered or raw), return -1
-// If a character is ready return that character
-// If no-one consumes a character inbetween calls, the char can be peeked again
-int peekc()
-{
-    int retval;
+    while (uart->RxEmpty)
+        ;
 
-    mutex_lock(&_buffer_mutex);
-
-    if (_buffer != EMPTY_BUFFER)
+    for (; count > 0; --count)
     {
-        retval = _buffer;
-    }
-    else if (uart->RxEmpty)
-    {
-        retval = -1;
-    }
-    else
-    {
-        _buffer = uart->RxTx;
-        retval = _buffer;
+        *buf++ = uart->RxTx;
+        read++;
+        if (uart->RxEmpty)
+            break;
     }
 
-    mutex_unlock(&_buffer_mutex);
-
-    return retval;
+    return read;
 }

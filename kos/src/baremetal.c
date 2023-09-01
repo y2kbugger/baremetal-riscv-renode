@@ -3,9 +3,9 @@
 
 #include "baremetal.h"
 #include "freedom_e.h"
-#include "uart.h"
 #include "timer.h"
 #include "process.h"
+#include "uart.h"
 #include "programs/programs.h"
 
 struct Process *current_process;
@@ -78,7 +78,67 @@ void handle_interrupt()
             *mepc += 4;
 
             register unsigned long syscall_no asm("a7");
-            putc(syscall_no + (int)'0');
+            uart_putc(syscall_no + (int)'0');
         }
     }
+}
+
+// Syscalls for newlib
+
+char *_sbrk(int incr)
+{
+    extern char memtop; /* Defined by baremetal.s */
+    extern char _end;   /* Defined by the linker */
+
+    static char *heap_end;
+    char *prev_heap_end;
+    if (heap_end == 0)
+    {
+        heap_end = &_end;
+    }
+    prev_heap_end = heap_end;
+
+    register char *sp asm("sp");
+
+    char *max_heap_end;
+    if (sp < &_end)
+    {
+        // calling from lightweight heapless process
+        // so we can use the entire memory
+        max_heap_end = &memtop;
+    }
+    else
+    {
+        // calling from system thread e.g. the scheduler or something
+        // this assumption is gonna break if we ever dynamically allocation stacks
+        max_heap_end = sp;
+    }
+
+    if (heap_end + incr > max_heap_end)
+    {
+        _write(1, "Heap out of space", 17);
+        // abort();
+    }
+
+    heap_end += incr;
+    return (char *)prev_heap_end;
+}
+
+#include <sys/stat.h>
+int _fstat(int file, struct stat *st)
+{
+    st->st_mode = S_IFCHR;
+    return 0;
+}
+int _lseek(int file, int offset, int whence)
+{
+    return 0;
+}
+int _close(int fd)
+{
+    return -1;
+}
+int _isatty(int file)
+{
+    return 1;
 }
