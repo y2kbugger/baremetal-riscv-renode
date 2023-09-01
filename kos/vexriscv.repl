@@ -12,4 +12,4 @@ uart: UART.LiteX_UART @ sysbus 0x60001800
 verilation: Verilated.VerilatedPeripheral @ sysbus <0x60003800, +0x1000>
     frequency: 100000000
     maxWidth: 32
-
+    simulationFilePathLinux: "../verilation/build/libVtop.so"
