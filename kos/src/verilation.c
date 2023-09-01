@@ -25,6 +25,26 @@ void print_matrix(char label[], uint8_t matrix[3][3])
         puts("|\n");
     }
 }
+void multiply_matrix(uint8_t a[3][3], uint8_t b[3][3], uint8_t c[3][3])
+{
+    // Manually multiply the matrices in software
+    // This is the same algorithm as in the verilated hardware
+    // You can use this to verify that the hardware is working correctly
+    for (int i = 0; i < 3; i++)
+    {
+        uint8_t row[3] = {a[i][0], a[i][1], a[i][2]};
+        for (int j = 0; j < 3; j++)
+        {
+            uint8_t col[3] = {b[0][j], b[1][j], b[2][j]};
+            uint8_t sum = 0;
+            for (int k = 0; k < 3; k++)
+            {
+                sum += row[k] * col[k];
+            }
+            c[i][j] = sum;
+        }
+    }
+}
 
 int verilation_test()
 {
@@ -42,15 +62,13 @@ int verilation_test()
         {4, 3, 2}};
     print_matrix("B", b_values);
 
-    uint8_t expected_c_values[3][3] = {
-        {93, 150, 126},
-        {57, 96, 81},
-        {21, 42, 36}};
-    print_matrix("Expected C", expected_c_values);
-
     for (int k = 0; k < 3; k++)
     {
+        // Generate multiple test cases
         b_values[0][0] += k;
+        uint8_t expected_c_values[3][3] = {};
+        multiply_matrix(a_values, b_values, expected_c_values);
+        print_matrix("Expected C", expected_c_values);
         // Copy matrices to the matmul structure
         for (int i = 0; i < 3; i++)
         {
