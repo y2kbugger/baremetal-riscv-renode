@@ -95,22 +95,12 @@ void print_hex(uint32_t value, int bit_width)
     const char hex_chars[] = "0123456789ABCDEF";
 
     // Print "0x" prefix
-    putc('0');
-    putc('x');
-
-    int shift;
-    bool leading_zero = true;
+    puts("0x");
 
     // Process each 4-bit chunk (nibble)
-    for (shift = bit_width - 4; shift >= 0; shift -= 4)
+    for (int shift = bit_width - 4; shift >= 0; shift -= 4)
     {
         char hex_char = hex_chars[(value >> shift) & 0xF];
-
-        if (hex_char != '0')
-        {
-            leading_zero = false;
-        }
-
         putc(hex_char);
     }
 }
