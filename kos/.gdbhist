@@ -1,15 +1,3 @@
-$
-c
-si
-$gp
-p $gp
-p/a $a1
-p/a $sp
-q
-break mtvec_interrupt_handler 
-c
-p/a $sp
-si
 p/a $a1
 p current_process 
 r
@@ -254,3 +242,15 @@ until 141
 until 77
 until 100
 si
+continue
+p matmul
+p matmul->A
+p &matmul->A
+p &matmul->B
+p &matmul->C
+dis uart
+p uart
+p uart->TxFull
+p &uart->TxFull
+continue
+exit
