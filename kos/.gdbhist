@@ -1,13 +1,3 @@
-p/a $a1
-p current_process 
-r
-q
-break mtvec_interrupt_handler 
-c
-p a
-p/a a
-si
-p current_process 
 p &a
 q
 break mtvec_interrupt_handler 
@@ -254,3 +244,13 @@ p uart->TxFull
 p &uart->TxFull
 continue
 exit
+break fuckinglabel
+q
+q
+continue
+start
+q
+b ver_test 
+step
+stepi
+continue
