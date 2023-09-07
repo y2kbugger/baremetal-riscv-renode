@@ -1,3 +1,5 @@
+`include "matrix_mult.v"
+
 module top(
     input clk,             // Clock
     input rst,             // Reset

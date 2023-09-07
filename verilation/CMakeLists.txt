@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.8)
 project(kosverilation)
 
 # Verilog file containing the top module to be Verilated
-set(VTOP top.v matrix_mult.v)
+set(VTOP top.v)
 
 # C/C++ source files to be compiled
 set(CSOURCES sim_main.cpp)
