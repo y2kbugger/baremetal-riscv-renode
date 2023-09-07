@@ -1,0 +1,22 @@
+{
+    "git.autoRepositoryDetection": false,
+    "git.ignoreLimitWarning": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnSaveMode": "file",
+    "files.associations": {
+        "*.x": "c",
+        "*.h": "c",
+    },
+    "json.validate.enable": false,
+    "terminal.integrated.profiles.linux": {
+        "bash": {
+            "path": "bash",
+            "icon": "terminal-bash",
+            "args": [
+                "--init-file",
+                "./.vscode/activation_helper.sh"
+            ]
+        },
+    },
+    "C_Cpp.default.compilerPath": "../../riscv-gnu-toolchain-output/bin/riscv32-unknown-elf-gcc"
+}

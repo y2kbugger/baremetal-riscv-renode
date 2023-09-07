@@ -1,0 +1,30 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) launch", // this doesn't actually launch this is how you attach to the gdb server
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/image",
+            "MIMode": "gdb",
+            "miDebuggerPath": "${workspaceFolder}/../riscv-gnu-toolchain-output/bin/riscv32-unknown-elf-gdb",
+            "miDebuggerServerAddress": "localhost:3333",
+            "cwd": "${workspaceFolder}",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "set dissassemble-flavor to intel",
+                    "text": "set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+    ]
+}
