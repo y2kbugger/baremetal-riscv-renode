@@ -4,7 +4,6 @@
 
 void ver_test()
 {
-fuckinglabel:
     // Setting matrix A
     uint8_t a[3][3] = {
         {9, 8, 7},
