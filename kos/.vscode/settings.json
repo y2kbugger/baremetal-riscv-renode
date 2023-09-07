@@ -6,6 +6,7 @@
     "files.associations": {
         "*.x": "c",
         "*.h": "c",
+        "Makefile.*": "makefile"
     },
     "json.validate.enable": false,
     "terminal.integrated.profiles.linux": {
