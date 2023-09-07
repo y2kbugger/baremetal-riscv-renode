@@ -11,7 +11,7 @@ set(CSOURCES sim_main.cpp)
 
 # Additional compiling, linking or verilating arguments (respectively)
 #set(COMP_EXEC_ARGS ...)
-set(COMP_LIB_ARGS -fPIC)
+set(COMP_LIB_ARGS -fPIC -w)
 #set(LINK_EXEC_ARGS ...)
 #set(LINK_LIB_ARGS ...)
 #set(VERI_EXEC_ARGS ...)
