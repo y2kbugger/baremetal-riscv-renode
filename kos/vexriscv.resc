@@ -1,5 +1,5 @@
-:name: 2_uart_VexRiscv
-:description: Loader for the baremetal-riscv-renode project example 2 "uart"
+:name: kos_VexRiscv
+:description: Test platform for the kOS operating system
 
 $name?="vexriscv-machine"
 
