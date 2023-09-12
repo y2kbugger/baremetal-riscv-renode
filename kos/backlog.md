@@ -15,7 +15,6 @@ I want:
   - right now we work around it with bool uart_has_data(), but true asyncronous signals would be interesting to learn.
 - programs to be able to request sleep
 - slow down count forever and laugh forever
-- count forever to count higher than 9
 - to not have to manually put end this function in program definition.
 - to be able to recycle process objects
 - dynamic memory allocation so that stack size and process count are not fixed at compile time.

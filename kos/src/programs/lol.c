@@ -11,5 +11,9 @@ void lol()
 void laugh_forever()
 {
     while (1)
-        printf("ha");
+    {
+        for (int i = 0; i < 36; i++)
+            printf("ha");
+        printf("\n");
+    }
 }
