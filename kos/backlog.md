@@ -8,6 +8,11 @@
 # Backlog
 I want:
 - programs should be able to self-document e.g. don't hardcode usage
+- programs should be able to yield in addition to killing themselves, this would allow for shell to be able to run programs in the foreground without busy waiting themselves.
+- implement SIGINT and SIGKILL/SIGSTOP/SIGTERM using actual signals
+  - this would help make the shell simpler and more robust
+  - it removes the need to peek for SIGINT in the shell using buffered input.
+  - right now we work around it with bool uart_has_data(), but true asyncronous signals would be interesting to learn.
 - programs to be able to request sleep
 - slow down count forever and laugh forever
 - count forever to count higher than 9
@@ -17,9 +22,6 @@ I want:
   - this automatically handles the recycling of process objects
 - shells should forward input to programs
     - right now, all programs can grab user input based the race of who gets to read the UART during multi-tasking
-- to design Simple FPGA-able matrix-multiply accelerator
-    - verilate the matmul, attach to renode
-    - write driver for matmul
 - Run everything on a real FPGA
 - all Process mutating functions to happen via kernel call so that race conditions are rendered impossible.
     - e.g. stop all running processes is current called straight from the shell.
@@ -32,7 +34,6 @@ I want:
 - to know if a Process has blown stack
 - explore this update to renode: "GDB autostart parameter now starts the simulation as soon as the debugger is connected" and "GDB interacts with Renode much faster"
 - explore this update to renode: "handling of c.ebreak instruction in RISC-V, allowing for software breakpoints"
-- does this cause problems? "VerilatorIntegrationLibrary is now part of Renode packages"
 - explore update "support for NMI interrupts in RISC-V"
 - explore riscv vector instructions
 
