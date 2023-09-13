@@ -40,7 +40,7 @@ void schedule_processes()
 
 void end_this_process()
 {
-    current_process->status = Dead;
+    asm("li a7, 3");
     asm volatile("ecall");
 }
 
@@ -71,14 +71,31 @@ void handle_interrupt()
         if (mcause_code == 11)
         {
             // ecall
-            if (current_process == NULL)
-                return;
 
+            if (current_process == NULL)
+            {
+                _write(1, "Not sure if this gets hit in practice", 38);
+                return;
+            }
+
+            // resume _after_ the ecall
             size_t *mepc = current_process->sp + 29;
             *mepc += 4;
 
-            register unsigned long syscall_no asm("a7");
-            uart_putc(syscall_no + (int)'0');
+            // handle syscall
+            register unsigned int syscall_no asm("a7");
+            switch (syscall_no)
+            {
+            case 3:
+                current_process->status = Dead;
+                break;
+            case 5:
+                _write(1, "TESTSYSCALL", 11);
+                break;
+            default:
+                _write(1, "Unknown syscall", 15);
+                break;
+            }
         }
     }
 }
