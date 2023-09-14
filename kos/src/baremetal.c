@@ -34,6 +34,16 @@ void schedule_processes()
         current_process->status = Stopped;
 
     current_process = next_process;
+
+    // Defensive check for stack overflow
+    size_t *sp = current_process->sp;
+    size_t *stack_ceiling = current_process->stack;
+    // printf("\nStack remaining: %u\n", sp - stack_ceiling);
+    if (sp <= stack_ceiling + 20)
+    {
+        _write(1, "Stack overflow impending!", 25);
+    }
+
     current_process->status = Running;
     next_process = NULL;
 }
