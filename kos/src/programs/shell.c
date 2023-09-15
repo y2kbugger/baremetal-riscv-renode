@@ -141,25 +141,26 @@ void run_foreground_process(struct Process *proc)
     {
         if (LOUD_TASK_SWITCHING)
             _write(1, "*", 1);
-        if (!uart_has_data())
+
+        if (uart_has_data())
         {
-            yield_from_this_process();
-            continue;
+            int c = getchar();
+            if (c == SIGKILL)
+            {
+                proc->status = Dead;
+            }
+            else if (c == SIGSTOP)
+            {
+                proc->status = Stopped;
+            }
+            else
+            {
+                if (LOUD_TASK_SWITCHING)
+                    _write(1, "&", 1);
+                ungetc(c, stdin);
+            }
         }
-        int c = getchar();
-        if (c == SIGKILL)
-        {
-            proc->status = Dead;
-        }
-        else if (c == SIGSTOP)
-        {
-            proc->status = Stopped;
-        }
-        else
-        {
-            printf("Forwarding character: `%c` to program `%c`\n", c, proc->program->name);
-            ungetc(c, stdin);
-        }
+        yield_from_this_process();
     }
 }
 
