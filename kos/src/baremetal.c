@@ -44,6 +44,10 @@ void schedule_processes()
         _write(1, "Stack overflow impending!", 25);
     }
 
+    // newlib reentrancy struct, must be unique per process/thread
+    // https://sourceware.org/newlib/libc.html#Reentrancy
+    _impure_ptr = &current_process->reent;
+
     current_process->status = Running;
     next_process = NULL;
 }

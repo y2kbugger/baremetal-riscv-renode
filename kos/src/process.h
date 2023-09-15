@@ -5,7 +5,7 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#define PROC_STACK_SIZE 200
+#include <reent.h>
 
 enum ProcessStatus
 {
@@ -28,6 +28,7 @@ struct Process
     size_t *sp;
     struct Program *program;
     enum ProcessStatus status;
+    struct _reent reent;
     size_t stack[PROC_STACK_SIZE];
 };
 

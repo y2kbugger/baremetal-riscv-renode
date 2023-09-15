@@ -39,6 +39,9 @@ struct Process *init_process(struct Program *program)
         *(proc->sp--) = 0xdeedbeef;
     }
 
+    // give the process a unique reent struct
+    _REENT_INIT_PTR(&proc->reent);
+
     proc->status = Ready;
 
     return proc;
