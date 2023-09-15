@@ -28,8 +28,9 @@ struct Process *init_process(struct Program *program)
     proc->program = program;
     proc->sp = &(proc->stack[PROC_STACK_SIZE - 1]);
 
-    const unsigned int ALIGNMENT = 16;
-    proc->sp -= ALIGNMENT - ((size_t)proc->sp % ALIGNMENT);
+    // Align stack pointer to 16-byte boundary
+    const size_t ALIGNMENT_MASK = 0xF;
+    proc->sp = (size_t *)((size_t)proc->sp & ~ALIGNMENT_MASK);
 
     *(proc->sp--) = (size_t)program->function;
 
