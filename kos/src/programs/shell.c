@@ -125,7 +125,10 @@ void run_foreground_process(struct Process *proc)
     while (proc->status == Ready)
     {
         if (!uart_has_data())
+        {
+            yield_from_this_process();
             continue;
+        }
         int c = getchar();
         if (c == SIGKILL)
         {

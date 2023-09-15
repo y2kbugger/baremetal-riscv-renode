@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 #include "baremetal.h"
 #include "freedom_e.h"
@@ -57,6 +58,11 @@ void end_this_process()
     asm("li a7, 3");
     asm volatile("ecall");
 }
+void yield_from_this_process()
+{
+    asm("li a7, 4");
+    asm volatile("ecall");
+}
 
 #define MCAUSE_INT_MASK 0x80000000
 #define MCAUSE_CODE_MASK 0x7FFFFFFF
@@ -100,8 +106,13 @@ void handle_interrupt()
             register unsigned int syscall_no asm("a7");
             switch (syscall_no)
             {
-            case 3:
+            case 3: // exit
                 current_process->status = Dead;
+                break;
+            case 4: // yield
+                current_process->status = Ready;
+                schedule_processes();
+                clear_timer();
                 break;
             case 5:
                 _write(1, "TESTSYSCALL", 11);

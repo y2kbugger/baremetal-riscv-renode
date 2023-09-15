@@ -8,5 +8,6 @@ extern struct Process *next_process;
 
 void handel_interrupt();
 void end_this_process();
+void yield_from_this_process();
 
 #endif /* BAREMETAL_H */
