@@ -10,8 +10,8 @@
 #define SIGSTOP '\032'
 #define ESCAPE '\033'
 #define BACKSP '\010'
-// #define SIGSTOP_CMD ((const char[]){SIGSTOP, '\0'})
-// #define SIGKILL_CMD ((const char[]){SIGKILL, '\0'})
+
+bool LOUD_TASK_SWITCHING = false;
 
 void _usage();
 void start_stopped_processes();
@@ -20,7 +20,15 @@ void try_start_foreground_process(char name);
 void run_foreground_process(struct Process *proc);
 void stop_all_processes_except_current();
 char *read_command();
-void yell();
+
+void enable_loud_task_switching()
+{
+    LOUD_TASK_SWITCHING = true;
+}
+void disable_loud_task_switching()
+{
+    LOUD_TASK_SWITCHING = false;
+}
 
 struct command_entry
 {
@@ -33,7 +41,8 @@ struct command_entry command_table[] = {
     {"@", print_stopped_processes},
     {"^", start_stopped_processes},
     {"!", stop_all_processes_except_current},
-    {"yell", yell},
+    {"set loud_switching", enable_loud_task_switching},
+    {"unset loud_switching", disable_loud_task_switching},
     {NULL, NULL} // Marks the end of the array
 };
 
@@ -83,6 +92,12 @@ void _usage()
     printf("    !: stop all background processes.\n");
     printf("  C-Z: stop foreground process\n");
     printf("  C-C: kill foreground process\n");
+
+    printf("Shell Flags:\n");
+    printf("set/unset e.g. `set loud_switching`\n");
+    printf("Flags:\n");
+    printf("  loud_switching: print a * every time shell is switched in during\n");
+    printf("                  a the running of a foreground process\n");
 }
 
 void print_stopped_processes()
@@ -124,6 +139,8 @@ void run_foreground_process(struct Process *proc)
 {
     while (proc->status == Ready)
     {
+        if (LOUD_TASK_SWITCHING)
+            _write(1, "*", 1);
         if (!uart_has_data())
         {
             yield_from_this_process();
@@ -229,9 +246,4 @@ char *read_command()
 
     *command_end = '\0';
     return command;
-}
-
-void yell()
-{
-    printf("YELL!\n");
 }

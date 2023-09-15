@@ -27,7 +27,7 @@ volatile Timer *const timer = (Timer *)(0x60002800 + 0x100);
 
 void init_timer()
 {
-    timer->Load = 450;
+    timer->Load = 5500; // period
     timer->Flag = 0;
     timer->Control = Enable | InterruptEnable | ChainMode;
 }
