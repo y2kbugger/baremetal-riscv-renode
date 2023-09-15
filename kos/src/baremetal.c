@@ -122,12 +122,10 @@ char *_sbrk(int incr)
     extern char _end;   /* Defined by the linker */
 
     static char *heap_end;
-    char *prev_heap_end;
     if (heap_end == 0)
     {
         heap_end = &_end;
     }
-    prev_heap_end = heap_end;
 
     register char *sp asm("sp");
 
@@ -151,8 +149,9 @@ char *_sbrk(int incr)
         // abort();
     }
 
+    char *new_block_start = heap_end;
     heap_end += incr;
-    return (char *)prev_heap_end;
+    return new_block_start;
 }
 
 #include <sys/stat.h>
