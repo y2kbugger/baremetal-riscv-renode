@@ -7,6 +7,8 @@
 
 #include <reent.h>
 
+#define PROC_STACK_SIZE 400
+
 enum ProcessStatus
 {
     Uninitialized,
