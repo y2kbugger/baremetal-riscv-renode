@@ -48,7 +48,7 @@ mtvec_interrupt_handler:
         beq     tp, zero, no_current_process
 
 store_process:
-        addi    sp, sp, -29*XLEN   # allocate space for context
+        addi    sp, sp, -32*XLEN   # allocate space for context
 
         # store all registers
         sw      x1, 1*XLEN(sp)
@@ -85,7 +85,7 @@ store_process:
 
         # store pc from the process onto the stack
         csrr    t0, mepc
-        sw      t0, 29*XLEN(sp)
+        sw      t0, 32*XLEN(sp)
 
         # store sp from the process
         # current_process->sp = sp
@@ -105,7 +105,7 @@ restore_process:
         lw      sp, 0(tp)
 
         # restore pc into mepc
-        lw      t0, 29*XLEN(sp)
+        lw      t0, 32*XLEN(sp)
 	csrw    mepc, t0
 
         # restore all registers
@@ -141,6 +141,6 @@ restore_process:
         lw      x30, 27*XLEN(sp)
         lw      x31, 28*XLEN(sp)
 
-        addi    sp, sp, 29*XLEN   # deallocate space for context
+        addi    sp, sp, 32*XLEN   # deallocate space for context
 
         mret

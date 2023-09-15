@@ -33,7 +33,7 @@ struct Process *init_process(struct Program *program)
 
     *(proc->sp--) = (size_t)program->function;
 
-    for (size_t i = 28; i > 0; i--)
+    for (size_t i = 31; i > 0; i--)
     {
         *(proc->sp--) = 0xdeedbeef;
     }
