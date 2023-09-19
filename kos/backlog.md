@@ -7,8 +7,8 @@
 
 # Backlog
 I want:
+- redefine stack using uint8_t (also same for heap e.g. _sbrk)
 - programs should be able to self-document e.g. don't hardcode usage
-- programs should be able to yield in addition to killing themselves, this would allow for shell to be able to run programs in the foreground without busy waiting themselves.
 - implement SIGINT and SIGKILL/SIGSTOP/SIGTERM using actual signals
   - this would help make the shell simpler and more robust
   - it removes the need to peek for SIGINT in the shell using buffered input.
@@ -35,9 +35,10 @@ I want:
 - explore this update to renode: "handling of c.ebreak instruction in RISC-V, allowing for software breakpoints"
 - explore update "support for NMI interrupts in RISC-V"
 - explore riscv vector instructions
+- compile newlib with gdb symbols so that I can debug through the newlib code
 
 # Bugs
--
+- ctrl-c fails if an unget c is in the buffer before the ctrl-c
 
 # Memory map
 

@@ -5,6 +5,7 @@
 #include "count.h"
 #include "shell.h"
 #include "ver.h"
+#include "corruption_detect.h"
 
 void register_all_programs()
 {
@@ -15,6 +16,7 @@ void register_all_programs()
     register_program('c', count_forever);
 
     register_program('v', ver_test);
+    register_program('q', corruption_detect_test5);
     register_program('m', multiply_matrices);
 
     register_program('s', shell);

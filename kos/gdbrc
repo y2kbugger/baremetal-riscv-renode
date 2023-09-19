@@ -5,3 +5,4 @@ layout split
 set history filename .gdbhist
 set history save on
 set history remove-duplicates 7
+set history size 100000

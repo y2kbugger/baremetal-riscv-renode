@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdbool.h>
 
 void init_uart();
 

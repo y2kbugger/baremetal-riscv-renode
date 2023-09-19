@@ -6,7 +6,7 @@ help:	## Show this help.
 	@sed -ne 's/^\([^[:space:]]*\):.*##/\1:\t/p' $(MAKEFILE_LIST) | column -t -s $$'\t'
 
 image:	src/*.s src/*.c src/**/*.c	## Build the image
-	riscv32-unknown-elf-gcc $^ -march=rv32i_zicsr -Wall -ggdb -O3 -o image -ffreestanding -nostdlib -lc_nano -lgcc
+	riscv32-unknown-elf-gcc $^ -march=rv32i_zicsr -Wall -ggdb -O0 -o image -ffreestanding -nostdlib -lc_nano -lgcc
 
 launch: verilator image ## Image Launch the image in renode
 	renode --net vexriscv.resc --console

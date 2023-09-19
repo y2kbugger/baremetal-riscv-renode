@@ -1,197 +1,3 @@
-c
-si
-p &a
-p a
-p &current_process
-p current_process
-p gp
-p $gp
-exit
-q
-p __stack
-break mtvec_interrupt_handler
-p __global_pointer$
-p/a __global_pointer$
-p/a (*void)__global_pointer$
-p/a (void)__global_pointer$
-p/a (void*)__global_pointer$
-p __bss_start
-p (void*)__bss_start
-p (void*)__DATA_BEGIN__
-p (void*)__SDATA_BEGIN__
-p (void*)__BSS_END__
-p/a gp
-p/a $gp
-until 59
-p *current_process
-p b
-a
-fin
-p/a $a1
-p/a $sp
-p aaa
-p (int)aaa
-p *$sp
-p (int*)$sp
-p $sp
-p *(int*)$sp
-a2
-p $a2
-watch a
-break init_processes
-start
-s
-break restore_process
-p $tp
-p t0
-p $t0
-x 66472
-p tp
-p *$tp
-p (void*)$tp
-p *(void*)$tp
-p (d**)$tp
-*(int*)$tp
-(int*)$tp
-p (int*)$tp
-p *(int*)$tp
-p/a *(int*)$tp
-x 0x116ec
-x/20xw 0x116ec
-x/250xw a
-x/250xw <a>
-x 11aa14
-x 0x11aa14
-x/100xh 0x11aa14
-x/100xh 0x11a14
-x/100xw 0x11a14
-x/250xw $tp
-x/4xw 0x000116ec -2
-x/4xw 0x000116ec
-x/4xw $tp
-x/xw 0x000116ec
-x/50xw 0x000116ec
-x/50xw 0x000116ec+29
-x/50xw 0x000116ec+29*4
-x/50xw 0x000103a8
-x/xw 0x000116ec+29*4
-x/xw 0x000116ec+29*4 +1
-x/xw 0x000116ec+29*4 +1*4
-/xw
-x/xw 0x00000061
-p/a $t0
-p/ a
-p/a a
-p/a 0x116ec
-x/xw 0x116ec
-/830xw
-x/xw 0x000103a8
-break store_process
-x/xw $tp
-x/29xw 0x116ec
-x/30xw 0x116ec
-
-x/30xw 0x11720
-x/40xw 0x116ac
-info watchpoint
-delete 2
-delete 3
-info breakpoints
-delete 1
-p sp
-p/a
-p/a $pc
-apropos out
-60
-60 si
-until 30
-stack
-trace
-until 102
-p *(void)$sp
-p *(void **)$sp
-p current_process->sp
-p current_process->stack
-p x current_process->stack
-p /x current_process->stack
-until 146
-until 141
-until 77
-until 100
-continue
-p matmul
-p matmul->A
-p &matmul->A
-p &matmul->B
-p &matmul->C
-dis uart
-p uart
-p uart->TxFull
-p &uart->TxFull
-break fuckinglabel
-b ver_test
-step
-stepi
-show TargetArchitecture
-show architecture
-break _sbrk
-local
-p head_end
-p heap_end
-p stack_ptrr
-heap_end+incr
-eval
-eval(heap_end+incr)
-eval("1"
-eval?
-p inr
-p incr
-reg sp
-info registers
-p &_end
-p _start
-p _end
-p memtop
-p &memtop
-_end
-locals
-help
-alias
-aliases
-p (void*)_end
-p (void*)_start_
-p (void*)_start
-p (void*)_e
-p (void*)&_end
-p (void*)&_endd
-p (void*)&_start
-p &_start
-disass _end
-disass &_end
-disass _start
-x/20i 0x17c8c
-frame 0x17c8c
-disass *0x17c8c
-disass (void*)0x17c8c
-disass 0x17c8c
-tui layout regs
-layout regs
-layout split
-b uart_getc
-continu
-list shell.c:127
-break  shell.c:127
-break  shell.c:199
-n
-b uart.c:55
-p count
-b uart.c:65
-b _sbrk
-strace
-bt
-p *heap_end
-p &heap_end
-dis 0x238d8
 info tacktrace
 info 0x238d8
 dis 0x238d8-10 0x238d8+10
@@ -255,3 +61,254 @@ p numLength; p buffer
 define hook-continue
 x/s 0x19e38
 end
+b baremetal.c:40
+c
+p *_impure_ptr 
+p _impure_ptr 
+p current_process 
+p *current_process 
+p *current_process.program
+p _REENT
+p __getreent
+q
+b count.c:15
+continue 
+bt
+si
+b shell.c:128
+p _impure_ptr 
+c
+q
+b shell.c:128
+b count.c:15
+dp
+bp
+list shell.c:127
+delete 1
+delete 2
+b shell.c:128
+c
+q
+break  shell.c:128
+b count.c:15
+b baremetal.c:27
+c
+p next_process
+p next_process->program 
+p *next_process->program 
+p *current_process->program 
+p *current_process->status
+p current_process->status
+p next_process->status
+n
+p _impure_ptr 
+c
+q
+c
+q
+b process.c:32
+q
+c
+q
+q
+b process.c:32
+c
+n
+list 0x183dc
+x/s 0x19e38
+x/b 0x183dc
+x/20b 0x183dc
+x/20b 0x1831c
+p *proc->sp
+p proc->sp
+q
+b process.c:37
+c
+p origsp 
+p offset
+p offset2
+p (size_t *)origsp 
+p proc->sp
+q
+p proc->sp
+p &proc->sp
+c
+q
+b process.c:33
+p *proc->sp
+n
+p proc->sp
+c
+p current_process->stack
+list current_process->stack
+x/b current_process->stack
+x/b200 current_process->stack
+x/200b current_process->stack
+p proc
+x/800b current_process->stack
+x/800xx current_process->stack
+x/800wx current_process->stack
+x/200wx current_process->stack
+p current_process->sp
+q
+c
+p current_process->sp
+p proc->sp
+q
+b process.c:33
+q
+c
+p proc->sp
+q
+c
+p proc->sp
+q
+p proc->sp
+c
+q
+define hook-continue
+p current_process->sp
+end
+c
+q
+c
+x/s 0x15e68
+x/s 0x16000-408
+n
+q
+si
+finish 
+q
+si
+fini
+c
+c
+finish
+si
+b __adddf3 
+disas __adddf3 
+q
+finish
+q
+b corruption_detect
+b corruption_detect_test
+c
+p jj
+p j
+p buf
+p &buf
+list 0x19810
+list current_process->sp
+disas current_process->sp
+q
+b corruption_detect.cA:16
+c
+disas current_process->sp
+p ooo
+p &ooo
+x/qw 0x198c4
+x/w 0x198c4
+x/wx 0x198c4
+x/wx20 0x198c4
+x/20wx 0x198c4
+x/20wx 0x198c4-20
+x/60wx 0x198c4-40
+x/60wx 0x198c4-60
+x/40wx 0x198c4-80
+x/40wx 0x198c4-100
+x/40wx 0x198c4-120
+x/40wx 0x198c4-140
+x/40wx 0x198c4-160
+si
+finis
+b corruption_detect.c:27
+delete 1
+c
+q
+c
+jn
+n
+sisi
+gindins
+q
+b corruption_detect_test
+n
+b corruption_detect.c:29
+c
+continue
+q
+q
+q
+c
+q
+b corruption_detect.c:18
+c
+si
+q
+b corruption_detect.c:18
+info registers 
+si
+n
+c
+b __adddf3+300
+b *(__adddf3+300)
+b <__adddf3+300>
+exit
+b *(__adddf3+100)
+q
+c
+q
+b *(__adddf3+100)
+si
+c
+q
+q
+b corruption_detect.c:166
+c
+p i
+exit
+b store_process 
+st
+stacktrace
+bt
+ls
+c
+cls
+f1
+frame 1
+p i
+b corruption_detect.c:117 if i == 1486
+b corruption_detect.c:156 if i == 1486
+q
+b corruption_detect.c:156 if i == 1486
+si
+frame 1
+p result
+p result2
+c
+exit
+b corruption_detect.c:156 if i == 1486
+si
+c
+q
+b corruption_detect.c:156 if i == 1486
+b store_process 
+c
+si
+info registers 
+x/500wh current_process->stack
+x/400wh current_process->stack
+x/400w current_process->stack
+x/400wx current_process->stack
+exit
+b corruption_detect.c:156 if i == 1486
+b store_process 
+info registers 
+ni
+info reg
+x/400wx current_process->stack
+c
+frame 1
+p result
+p result2
+q
