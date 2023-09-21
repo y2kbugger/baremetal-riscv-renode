@@ -81,7 +81,6 @@ void _usage()
     printf("    l: laugh\n");
     printf("    f: laugh forever\n");
     printf("    c: count forever\n");
-    printf("    v: verilator matrix multiply\n");
     printf("    v: verilator matrix multiply test\n");
     printf("    m: multiply your matrices\n");
 
