@@ -99,7 +99,7 @@ void handle_interrupt()
             }
 
             // resume _after_ the ecall
-            size_t *mepc = current_process->sp + 32;
+            size_t *mepc = current_process->sp + 31;
             *mepc += 4;
 
             // handle syscall

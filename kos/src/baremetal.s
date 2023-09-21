@@ -85,7 +85,7 @@ store_process:
 
         # store pc from the process onto the stack
         csrr    t0, mepc
-        sw      t0, 32*XLEN(sp)
+        sw      t0, 31*XLEN(sp)
 
         # store sp from the process
         # current_process->sp = sp
@@ -105,7 +105,7 @@ restore_process:
         lw      sp, 0(tp)
 
         # restore pc into mepc
-        lw      t0, 32*XLEN(sp)
+        lw      t0, 31*XLEN(sp)
 	csrw    mepc, t0
 
         # restore all registers

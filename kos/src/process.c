@@ -32,11 +32,11 @@ struct Process *init_process(struct Program *program)
     const size_t ALIGNMENT_MASK = 0xF;
     proc->sp = (size_t *)((size_t)proc->sp & ~ALIGNMENT_MASK);
 
-    *(proc->sp--) = (size_t)program->function;
+    *(proc->sp) = (size_t)program->function;
 
     for (size_t i = 31; i > 0; i--)
     {
-        *(proc->sp--) = 0xdeedbeef;
+        *(--proc->sp) = 0xdeedbeef;
     }
 
     // give the process a unique reent struct
