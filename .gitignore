@@ -5,3 +5,4 @@ riscv-gnu-toolchain-output/
 zos
 image
 *.out
+tests

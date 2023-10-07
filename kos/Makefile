@@ -7,3 +7,9 @@ verilator::
 
 clean-verilator::
 	rm -rf ../verilation/build
+
+tests:	src/tests.c src/circularbuffer.c ## Build the tests
+	riscv32-unknown-elf-gcc $^ -march=rv32i_zicsr -Wall -ggdb -O0 -o tests -lgcc
+
+test: tests ## Run the tests
+	qemu-riscv32-static tests
