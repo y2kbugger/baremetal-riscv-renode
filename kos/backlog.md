@@ -17,7 +17,8 @@
 I want:
 - redefine stack using uint8_t (also same for heap e.g. _sbrk)
 - to be able to recycle process objects
-- programs to be able to request sleep
+- programs to be able to request sleep (e.g. sleep 1 second unless interrupted by signal)
+- programs to be able to request pause (e.g. sleep indefinitly unless interrupted by signal)
 - slow down count forever and laugh forever
 - shell should be able to list all shell options as well as current value
 - all Process mutating functions to happen via kernel call so that race conditions are rendered impossible.
