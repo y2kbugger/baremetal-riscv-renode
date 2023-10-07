@@ -53,6 +53,11 @@ void schedule_processes()
     next_process = NULL;
 }
 
+void stop_this_process()
+{
+    asm("li a7, 2");
+    asm volatile("ecall");
+}
 void end_this_process()
 {
     asm("li a7, 3");
@@ -106,6 +111,9 @@ void handle_interrupt()
             register unsigned int syscall_no asm("a7");
             switch (syscall_no)
             {
+            case 2: // stop
+                current_process->status = Stopped;
+                break;
             case 3: // exit
                 current_process->status = Dead;
                 break;
