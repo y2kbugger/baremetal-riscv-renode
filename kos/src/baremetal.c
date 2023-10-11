@@ -3,7 +3,7 @@
 #include <stdlib.h>
 
 #include "baremetal.h"
-#include "freedom_e.h"
+#include "csr.h"
 #include "timer.h"
 #include "process.h"
 #include "uart.h"
