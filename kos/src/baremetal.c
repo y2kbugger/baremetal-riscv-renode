@@ -69,8 +69,23 @@ void yield_from_this_process()
     asm volatile("ecall");
 }
 
+// RISC-V standard
 #define MCAUSE_INT_MASK 0x80000000
 #define MCAUSE_CODE_MASK 0x7FFFFFFF
+
+// VexRiscv specific IRQ multiplexers/controller which map to CSR
+#define CSR_MACHINE_IRQ_MASK 0xBC0
+
+void disable_interrupt(int irq_num)
+{
+    clear_csr(CSR_MACHINE_IRQ_MASK, 0b1 << irq_num);
+}
+
+void enable_interrupt(int irq_num)
+{
+    set_csr(CSR_MACHINE_IRQ_MASK, 0b1 << irq_num);
+}
+
 void handle_interrupt()
 {
     unsigned long mcause_value = read_csr(mcause);
