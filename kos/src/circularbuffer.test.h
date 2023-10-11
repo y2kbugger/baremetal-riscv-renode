@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <stdio.h>
 #include "circularbuffer.h"
+#include "circularbuffer.c"
 
 void test_empty_buffer()
 {
@@ -83,16 +84,4 @@ void test_wrap_around()
     assert(is_buffer_full(&buffer));
     assert(buffer.write_index == 1);
     assert(buffer.read_index == 2);
-}
-
-int main()
-{
-    test_empty_buffer();
-    test_full_buffer();
-    test_write_to_buffer();
-    test_read_from_buffer();
-    test_read_from_empty_buffer();
-    test_wrap_around();
-    printf("All tests passed!\n");
-    return 0;
 }
